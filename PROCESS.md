@@ -20,17 +20,19 @@ These choices reflect my emphasis on inspectability and human review. They also 
 
 ## Annotated prompt highlights
 
+These excerpts preserve my original wording. The annotations explain the design intent, what the assistant produced, and which decisions were retained or deferred.
+
 1. **Choose a language the candidate can inspect**
 
    > i don't like to use next.js and i am more familiar with python, can we use python actually? i want to audie the whole process actually
 
    Intent: make review practical. The assistant confirmed that the brief permits Python; Python and typed schemas were kept. The candidate chose Strands because of existing familiarity, rather than implementing a custom agent loop.
 
-2. **Inspect the plan before implementation**
+2. **Preserve evidence separately from agent memory**
 
-   > before implementing on anything, i want to see your plans and repo structure first based on the framework and infra decisions we already made.
+   > all the tool returned results, user requests/prompts, extracted origination/destination/date ranges/agent initial responses should be stored as separate artifacts in addition to agent memory for the agent to load it up in the future
 
-   Intent: retain control of architecture before code appeared. The assistant proposed a repository structure and implementation plan, then revised it in response to requirements about orchestration, evidence, and sessions. Implementation followed the candidate's explicit approval.
+   Intent: make the agent's understanding traceable to the request and tool evidence that produced it. The assistant revised the persistence plan to capture original requests, model responses, tool inputs/results, and extracted trip-state snapshots as separate records. The retained design gives facts source artifact IDs and provides session-evidence tools for later retrieval. Working memory supports continuation; the preserved records support inspecting an earlier interpretation or correction. I requested this distinction before implementation, extending the single-turn brief.
 
 3. **Reject a fixed travel workflow**
 
@@ -62,17 +64,17 @@ These choices reflect my emphasis on inspectability and human review. They also 
 
    Intent: verify observable behavior, such as destination lookup in a relevant context, as well as final JSON. The assistant used Strands' deterministic ToolCalled checks. Required attempts, successful results, and forbidden tools remain separate; the LLM is not forced into a test-defined tool order.
 
-8. **Investigate failures rather than trust the aggregate score**
+8. **Make the session the persistence boundary**
 
-   > can you deep dive both to see where they failed?
+   > the artifacts should be stored through-out the same session: for example the same session should have a same artifacts stored from end to end and a different session should kick off a different session persistence.
 
-   Intent: explain the OpenAI and OpenRouter evaluation results. Original traces exposed repeated zero-budget arguments, mismatched nullable schemas, a too-restrictive exclusion-status expectation, and provider quota exhaustion. The fixes preserved original failed evidence and separated provider-blocked cases from agent-quality failures.
+   Intent: keep one trip's evidence continuous across turns and keep independent conversations separate. The assistant organized artifacts, events, trip state, and Strands memory under a stable session UUID. I kept explicit creation and resumption: resuming contributes to the existing history, while a new session starts its own storage. This gives a reviewer a coherent record of how one request evolved without mixing in another session's facts. It is a local storage boundary, not a multi-user authorization system.
 
-9. **Review the submission against the actual brief**
+9. **Give the answer and diagnostic evidence different visual priorities**
 
-   > keep in mind we not only need to satisfy the requirements, we also want others can test it and use smoothly and easily, think deeply about the the requirements
+   > good for debug purpose, but we need to highligh real agent response as what real users see, and rest tools usage, assumptions. caveats should be displayed in separate color or in a low key style for debugging purpose, explicitly say this is for debugging purpose
 
-   Intent: audit both compliance and reviewer experience. The assistant reread the PDF, checked a clean source copy, and deliberately corrupted two answers in memory. The then-current scorers still passed both; stronger final-claim checks and portable evidence were prioritized over more features.
+   Intent: make the CLI useful both to a traveler reading an answer and to a reviewer inspecting the agent. This feedback followed a manual conversation where raw final-response JSON overwhelmed the reply. In the same prompt I requested properly indented tool JSON. The assistant emphasized the answer, added muted diagnostic notices and expanded JSON under `--debug`, and removed duplicate questions. The retained presentation keeps assumptions and caveats visible as supporting details in normal mode, because they affect how the travel advice should be understood. Detailed evidence remains available in the artifacts and logbook.
 
 10. **Stop feature growth and finish the submission**
 
