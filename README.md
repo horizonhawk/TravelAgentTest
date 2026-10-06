@@ -117,7 +117,7 @@ Replace `ARTIFACT_UUID` with an ID from the artifact list. Facts retain their so
 - `agent.py`, `prompts.py`, `schemas.py`: Strands invocation, model instructions, typed response and provenance.
 - `models.py`: provider selection; small compatibility shims preserve SDK orchestration.
 - `evals/`, `tests/`: live/replay evaluations and offline regressions.
-- [PROCESS.md](PROCESS.md): genuine development decisions, reflection, and time disclosure.
+- [PROCESS.md](PROCESS.md#design-choices-i-drove): candidate-led design choices, ten annotated prompts, personal review, scope reflection, and time disclosure.
 - [transcripts/](transcripts/README.md): source-derived coding conversation export.
 
 The original brief asks for a single-turn agent. Session persistence and logbooks were explicit candidate-requested extensions; they are not needed to evaluate one request. Real travel APIs, a UI, deployment, production infrastructure, and model switching are deferred. Mock coverage is limited to Cancun, Algarve, Porto, Seville, Lyon, and Tokyo; an absent destination is a catalog limitation, not an invalid travel request.

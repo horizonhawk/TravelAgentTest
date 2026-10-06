@@ -2,6 +2,22 @@
 
 This records decisions from the genuine development conversation. The annotated quotations are excerpts; [the transcript export](transcripts/README.md) preserves the conversation and tool records in source order. The candidate supplied the personal reflection and time disclosure below.
 
+## Design choices I drove
+
+My main design question was how a person could inspect an agent's behavior: what it understood from the request, which tools it chose, what those tools returned, and how that evidence supported its answer. I directed these choices through prompts, reviewed the implementation areas listed below, and gave feedback from manual testing. Codex assisted with implementation and with drafting this account from the recorded conversation.
+
+**Separate working memory from preserved evidence.** I asked for user requests, extracted trip facts, initial responses, and tool results to be stored as distinct artifacts alongside agent memory. My concern was that a current conversation state alone would make earlier interpretations difficult to inspect. Preserving the underlying records gives both the agent and a reviewer something concrete to revisit when a user clarifies or corrects a request.
+
+**Make that evidence usable by humans.** When the artifact layout became too scattered, I asked for an integrated agent logbook containing the whole history. That led to one self-contained HTML edition with the conversation, state changes, tool results, errors, and expandable technical details. I also asked for the terminal to emphasize the real agent response, with quieter diagnostics and properly indented JSON. These requests came from trying to use and audit the agent, and shaped how the evidence is presented. The [actual Porto logbook](submission/examples/porto-live-logbook-20261006T054836.html) makes the result inspectable without another model call.
+
+**Preserve the path through corrections and failures.** I explicitly requested append-only artifacts so that a later result would not erase an earlier one. The implementation retains source records and creates new state snapshots and logbook editions, while mutable indexes and working memory are kept separate. During validation, the failed connection attempt remained recorded beside the successful continuation. That is useful evaluation evidence: a later success should not conceal what failed earlier. This is a local audit history, not a claim of tamper-proof storage.
+
+**Give the LLM responsibility for orchestration, with observable checks.** I wanted the model to interpret intent, ask useful clarification questions, and choose tools as needed. I also wanted users to see tool invocations and evaluations to check relevant tool use. Those requirements fit together: tests can check necessary evidence and respected constraints without prescribing one execution order. My proposed comparison against a deterministic workflow remains future work, rather than an untested claim that the agentic approach is better.
+
+**Keep a session's identity independent of its model provider.** I challenged the initial suggestion that switching models should automatically create a new session. The user's conversation and its evidence should retain their identity. I subsequently agreed to defer in-session switching and prioritize smooth configuration and testing. The delivered version preserves a model snapshot per session; full switching is not implemented.
+
+These choices reflect my emphasis on inspectability and human review. They also expanded the work beyond the single-turn brief. I would make that scope decision more carefully next time, as described in my reflection below.
+
 ## Annotated prompt highlights
 
 1. **Choose a language the candidate can inspect**
@@ -22,11 +38,11 @@ This records decisions from the genuine development conversation. The annotated 
 
    Intent: let the LLM interpret intent, clarify, and choose tools. The assistant withdrew a prescribed workflow. Strands owns the tool loop; Python validates arguments, calculations, evidence, and output rather than selecting a destination/flight/hotel sequence.
 
-4. **Expose tool activity and preserve evidence**
+4. **Turn scattered artifacts into a human-readable logbook**
 
-   > any tool invocations should be shown and displayed to users first to let them know context as well
+   > we want a whole and integrated pieces contains all the history, like an agent logbook
 
-   Intent: make execution inspectable. Before/after-tool hooks provide notices and immutable records independently of model narration. Later feedback moved detailed JSON into debug output and added an integrated HTML logbook for human review.
+   Intent: make the saved history practical to review. The candidate pushed back on scattered artifact files and requested an integrated view. The assistant added a self-contained HTML logbook with expandable tool JSON, state changes, and source records. Separate feedback on terminal readability led to quieter diagnostics and indented debug output. This was a candidate-requested extension beyond the brief.
 
 5. **Make storage append-only**
 
