@@ -28,7 +28,7 @@ On Windows, activate with `.venv\Scripts\Activate.ps1` in PowerShell. The remain
 
 `.gitignore` excludes `.env`, `.env.*` (including `.env.local` and `.env.production`), local `trip-agent.toml`, and `.trip-agent/` runtime storage. The credential-free `.env.example` template is intentionally allowed. Keep your real key in `.env`; do not put it in source code or model configuration. Once this folder is a Git repository, `git check-ignore -v .env` shows the matching rule. Ignore rules do not remove a file that was already committed or tracked.
 
-The install/setup target is under two minutes once prerequisites and credentials are available; network/download speed and model access can affect this. This is a target, not a measured clean-clone guarantee. Model response time and the live evaluation suite are separate from installation time.
+The install/setup target is under two minutes once prerequisites and credentials are available; network/download speed and model access can affect this. This is a target, not a measured clean-clone guarantee. The [fresh-clone acceptance command](../README.md#check-the-submission-from-a-fresh-github-clone) reports installation/configuration time separately and uses the stricter threshold of a successful first travel response within two minutes of clone completion, including model latency. The longer live evaluation suite follows outside that timing window. Select `--provider` and `--model` to measure your chosen backend.
 
 `config check` checks local configuration, dependencies, and API-key presence. For Bedrock it checks settings; AWS credential resolution and model access occur on a live call. `config check --live` runs a small model/tool/structured-output check and saves its own clearly named session. It makes billable API calls.
 
@@ -81,6 +81,10 @@ The original assignment calls for single-turn behavior and excludes persistence.
 ## Configure another backend
 
 Install the required extra: `.[anthropic]`, `.[bedrock]`, or `.[openrouter]`. `pip install -e '.[providers]'` installs all four integrations. Reviewers need credentials only for the backend they select.
+
+The [reviewer walkthrough](../README.md#choose-a-provider) covers installation, the live configuration check, a complete request, missing-information handling, all ten live evaluations and the logbook. `python -m evals.run` uses the configured default profile; it does not require OpenAI. `.[test]` installs multiple provider SDKs for offline regression tests, but those tests require no live provider accounts. No separate judge model or credential is needed for our deterministic scorers. Replaying the bundled OpenAI evidence requires no OpenAI key and does not measure another provider's quality.
+
+For a timed test in a separate fresh clone, run `python3 scripts/verify_submission.py --provider anthropic --model YOUR_CLAUDE_MODEL_ID --env-file .env`, substituting `openrouter` and its model ID for OpenRouter. Bedrock accepts `--provider bedrock --model YOUR_MODEL_ID --aws-region YOUR_REGION`, with an optional `--aws-profile YOUR_PROFILE`; an existing AWS profile or role needs no `.env`. The acceptance runner installs the selected runtime before measuring its first live response, and installs evaluation/test extras afterwards. Non-OpenAI providers require an explicit model choice. The script tests published remote source and records its commit; local unpublished edits are not included in that run.
 
 `trip-agent config init --provider anthropic --model <model-id>` creates a new config for that provider. To keep several profiles together, edit `trip-agent.toml`:
 

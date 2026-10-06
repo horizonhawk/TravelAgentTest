@@ -27,13 +27,18 @@ These are intentionally narrow English/numeric checks. They can reject unusual b
 
 `evals/cases.json` contains ten cases: underspecified input, beach budget, Tokyo without flights, family missing origin, nightly hotel limit, destination exclusion, conflicting constraints, Antarctica outside the catalog, the original $2,000 beach prompt, and the original Lisbon wedding-extension prompt.
 
-The curated source run is **OpenAI / gpt-6.1-sol**, run ID `20261006T044810289114Z`, with **8/8 cases and 28/28 applicable checks passing**. Its original answers also pass version-3 replay. The two added original-assignment prompts passed a [separate live run](../submission/validation/20261006T054836705601Z-github-clone/check.json) from the unchanged GitHub clone: **2/2 cases and 6/6 applicable checks**. Their [portable evidence](../submission/validation/20261006T054836705601Z-github-clone/additional-evidence/manifest.json) preserves the original responses. Ten cases have live coverage across two runs; this is not a single ten-case run. A replay is not a fresh model run and does not measure nondeterminism. OpenRouter free routing has both successful historical turns and quota/protocol failures; it is not presented as a reliable fixed-model benchmark. Anthropic and Bedrock setup is tested offline only.
+The latest curated run is **OpenAI / gpt-6.1-sol**, run ID `20261006T162713800251Z`: a **single ten-case live run with 10/10 cases and 34/34 applicable checks passing**, with no provider blockers. It ran from actual GitHub commit `97b8245049409bfd788502804d60eb15fe86f9b9`; [acceptance timings and checks](../submission/validation/20261006T162608763233Z-clean-clone/summary.json) and [portable evidence](../submission/evidence/openai-20261006T162713800251Z/manifest.json) are included. Its exported evidence also passed all ten cases on replay.
+
+Earlier evidence remains preserved: the original eight-case run `20261006T044810289114Z` passed 8/8 cases and 28/28 applicable checks, including version-3 replay; the two added assignment cases passed a [separate run](../submission/validation/20261006T054836705601Z-github-clone/check.json), 2/2 cases and 6/6 checks. A replay is not a fresh model run and does not measure nondeterminism. OpenRouter free routing has both successful historical turns and quota/protocol failures; it is not presented as a reliable fixed-model benchmark. Anthropic and Bedrock setup is tested offline only.
 
 ## Portable replay
 
 From the repository root after installing `.[eval]`:
 
 ```bash
+# Latest complete ten-case run:
+python -m evals.run --replay submission/evidence/openai-20261006T162713800251Z/outputs.json
+# Earlier eight-case run:
 python -m evals.run --replay submission/evidence/openai-20261006T044810289114Z/outputs.json
 # The two original-assignment examples generated from the actual GitHub clone:
 python -m evals.run --replay submission/validation/20261006T054836705601Z-github-clone/additional-evidence/outputs.json
@@ -51,8 +56,8 @@ Hashes detect accidental edits; they do not prove authenticity against an attack
 ## Create new results
 
 ```bash
-python -m evals.run --profile openai
-python -m evals.run --profile openai --only original-tight-beach-budget original-lisbon-extension
+python -m evals.run  # Uses the configured default provider.
+python -m evals.run --only original-tight-beach-budget original-lisbon-extension
 python -m evals.export --run reports/RUN_ID --output submission/evidence/NEW_BUNDLE_NAME
 ```
 

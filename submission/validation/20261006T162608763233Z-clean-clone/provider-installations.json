@@ -1,0 +1,131 @@
+{
+  "description": "Separate local fresh-venv checks using cached wheels and fake credentials. No API calls or online timing evidence. Each install contains only the selected runtime extra.",
+  "checks": [
+    {
+      "provider": "anthropic",
+      "status": "passed",
+      "mode": "cached_wheels_offline_no_model_calls",
+      "source_report_sha256": "554050c1e3d1bb01455c11639c93050dca3baa9b3d345cb736009b3ee501a42f",
+      "runtime": {
+        "provider": "anthropic",
+        "sdk": "AnthropicModel",
+        "installed": {
+          "openai": false,
+          "anthropic": true,
+          "boto3": true,
+          "strands_evals": false
+        }
+      },
+      "checks": [
+        {
+          "label": "Create isolated venv",
+          "exit_code": 0
+        },
+        {
+          "label": "Install selected runtime only from cached wheels",
+          "exit_code": 0
+        },
+        {
+          "label": "Initialize chosen provider",
+          "exit_code": 0
+        },
+        {
+          "label": "Check configuration without API calls",
+          "exit_code": 0
+        },
+        {
+          "label": "Create isolated session",
+          "exit_code": 0
+        },
+        {
+          "label": "Import agent and construct selected SDK without network",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "provider": "openrouter",
+      "status": "passed",
+      "mode": "cached_wheels_offline_no_model_calls",
+      "source_report_sha256": "dd7adbcfabc5942c802a7970fbfe5a3c45efaecdc24fc8a68ff80d01eb087909",
+      "runtime": {
+        "provider": "openrouter",
+        "sdk": "OpenRouterChatModel",
+        "installed": {
+          "openai": true,
+          "anthropic": false,
+          "boto3": true,
+          "strands_evals": false
+        }
+      },
+      "checks": [
+        {
+          "label": "Create isolated venv",
+          "exit_code": 0
+        },
+        {
+          "label": "Install selected runtime only from cached wheels",
+          "exit_code": 0
+        },
+        {
+          "label": "Initialize chosen provider",
+          "exit_code": 0
+        },
+        {
+          "label": "Check configuration without API calls",
+          "exit_code": 0
+        },
+        {
+          "label": "Create isolated session",
+          "exit_code": 0
+        },
+        {
+          "label": "Import agent and construct selected SDK without network",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "provider": "bedrock",
+      "status": "passed",
+      "mode": "cached_wheels_offline_no_model_calls",
+      "source_report_sha256": "2770503d19cdb6ef6c2cf2e07e6af960bdaa80e1871a1eea1e988a3476363aff",
+      "runtime": {
+        "provider": "bedrock",
+        "sdk": "BedrockModel",
+        "installed": {
+          "openai": false,
+          "anthropic": false,
+          "boto3": true,
+          "strands_evals": false
+        }
+      },
+      "checks": [
+        {
+          "label": "Create isolated venv",
+          "exit_code": 0
+        },
+        {
+          "label": "Install selected runtime only from cached wheels",
+          "exit_code": 0
+        },
+        {
+          "label": "Initialize chosen provider",
+          "exit_code": 0
+        },
+        {
+          "label": "Check configuration without API calls",
+          "exit_code": 0
+        },
+        {
+          "label": "Create isolated session",
+          "exit_code": 0
+        },
+        {
+          "label": "Import agent and construct selected SDK without network",
+          "exit_code": 0
+        }
+      ]
+    }
+  ]
+}

@@ -8,6 +8,8 @@ A Python + Strands CLI that turns a travel request into typed suggestions with r
 
 Requires Python 3.11+, internet access, and your own API key. The verified starter is OpenAI `gpt-6.1-sol` through Responses.
 
+**Using another provider?** Follow [Choose a provider](#choose-a-provider) after cloning and creating the virtual environment. Install that provider's extra and configure its model; an OpenAI account is not required.
+
 ```bash
 git clone https://github.com/horizonhawk/TravelAgentTest.git
 cd TravelAgentTest
@@ -36,21 +38,43 @@ A clarification is a valid single-turn answer. `run` exits after one response. F
 
 On Windows use `.venv\Scripts\Activate.ps1` to activate. Existing installations should skip `config init` and inspect `trip-agent config show`. Shell environment variables take precedence over `.env`. Keys, local configuration, and personal sessions are ignored by Git.
 
-The [actual GitHub-clone check](submission/validation/20261006T053840817424Z-github-clone/check.json) passed all 70 tests, the eight-case replay, and a live model/tool/structured-output probe. The [continuation on the same unchanged commit](submission/validation/20261006T054836705601Z-github-clone/check.json) passed the Porto example in 23.26 seconds and both added cases. The earlier example attempt had a connection failure, which remains recorded. Setup took **146 seconds** including evaluation dependencies and download timeouts, missing the two-minute target. The quickstart now installs runtime dependencies only; its online timing is not yet measured.
+The [latest actual GitHub-clone acceptance run](submission/validation/20261006T162608763233Z-clean-clone/summary.json), on commit `97b8245`, passed with a fresh venv and pip's cache disabled: runtime/configuration ready in **12.64 seconds**, first successful travel response in **46.53 seconds after cloning** (**47.275 seconds including cloning**). All ten live evaluation cases and all 70 offline tests in that revision passed; the complete acceptance suite took **242.293 seconds**. These are measured OpenAI results with Python, Git and credentials already available. Earlier [slow-setup/connection-failure evidence](submission/validation/20261006T053840817424Z-github-clone/check.json) and its [successful continuation](submission/validation/20261006T054836705601Z-github-clone/check.json) remain preserved.
 
-## Evaluate or inspect without API calls
+## Check the submission from a fresh GitHub clone
+
+With Python 3.11+, Git, internet access and your chosen provider's credentials available, run from this folder. The default is OpenAI:
+
+```bash
+python3 scripts/verify_submission.py --env-file .env
+
+# Other providers: replace model placeholders with IDs you have access to.
+python3 scripts/verify_submission.py --provider anthropic --model YOUR_CLAUDE_MODEL_ID --env-file .env
+python3 scripts/verify_submission.py --provider openrouter --model YOUR_ROUTER_MODEL_ID --env-file .env
+python3 scripts/verify_submission.py --provider bedrock --model YOUR_BEDROCK_MODEL_ID \
+  --aws-region us-west-2 --aws-profile YOUR_AWS_PROFILE
+```
+
+Choose **one** command for the provider you want to test. It tests **remote `main`**, records its exact commit, creates a new clone and virtual environment, and installs only `.[PROVIDER]` initially. The configuration probe, example and all live evaluations use that same provider/model. It loads only the selected provider's key or AWS settings from your existing file (shell values take precedence); it never copies the file or publishes anything. Bedrock can use an existing AWS profile/role without a `.env`; select the region where your model is available and omit `--aws-profile` to use the default credential chain. There is no provider fallback. Pip's download cache is disabled by default. `--use-pip-cache` opts into a cached comparison, labeled in its report. OS/network caches may still exist.
+
+The two timing checks use a conservative definition of “running”: a successful structured Porto suggestion, after the README's live configuration probe. **Under 120 seconds** is measured from clone completion through that response; **under 300 seconds** includes cloning too. A separate runtime-ready duration shows installation/configuration time. These automated timings include downloads and LLM latency, but assume Python, Git and a valid API key are available; they do not measure a human reading the README or acquiring a key.
+
+After timing stops, the command checks logbook/artifact preservation, installs optional test dependencies, runs every offline test, replays the included evidence, runs **all ten live evaluation cases**, exports their evidence and replays that export. Live calls consume API quota; the full suite can take several minutes beyond the setup limits. Keep your terminal open until it finishes.
+
+Each attempt creates `reports/acceptance/<timestamp>-clean-clone/check.json`, detailed evaluation reports, portable evidence and a sample logbook. Previous attempts are preserved, and the new clone is retained at the path printed at the end. Exit `0` means all automated checks and both timing targets passed; exit `1` means a failed, blocked or incomplete attempt—inspect the separate timing, step and evaluation results. A slow install does not become an agent-quality failure. Process authenticity, clarity of the instructions and visual readability still require human review.
+
+## Evaluations and offline tests
 
 ```bash
 # Evaluation dependencies are optional for running the CLI.
 pip install -e '.[eval]'
 
-# Portable original OpenAI evidence: no key or local session directory required.
-python -m evals.run --replay submission/evidence/openai-20261006T044810289114Z/outputs.json
+# Portable ten-case OpenAI evidence: no key or local session directory required.
+python -m evals.run --replay submission/evidence/openai-20261006T162713800251Z/outputs.json
 
 # Real calls, fresh isolated sessions; API charges/quotas apply.
-python -m evals.run --profile openai
+python -m evals.run  # Uses your configured default provider; no OpenAI requirement.
 # Just two cases:
-python -m evals.run --profile openai --only beach-budget contradiction
+python -m evals.run --only beach-budget contradiction
 
 # Offline implementation and evaluator regression tests:
 pip install -e '.[test]'
@@ -59,24 +83,48 @@ pytest -q
 
 Four deterministic dimensions check schema, constraints, evidence/budget claims, and tool use. **Ten cases** include vague input, exclusions, conflicting requirements, unknown budgets, catalog gaps, and two original assignment examples. They do not impose tool order on the agent.
 
-The included original **eight-case OpenAI run passed 8/8**; it also passes the stronger version-3 scorers on replay. The two added assignment cases passed a separate live run from the GitHub clone (**2/2, 6/6 applicable checks**). This covers ten cases across two live runs, not one ten-case run. Regression tests reject incorrect final dollar amounts, false all-in claims, and the claim that Tokyo lies outside Japan, even when the response has valid structure and citations. These are deliberately narrow English checks, not a complete semantic judge.
+The latest included **single ten-case OpenAI run passed 10/10 cases and 34/34 applicable checks**, with no provider blockers; its portable export also passed replay. Earlier eight-case and two-case runs remain preserved. Regression tests reject incorrect final dollar amounts, false all-in claims, and the claim that Tokyo lies outside Japan, even when the response has valid structure and citations. These are deliberately narrow English checks, not a complete semantic judge.
 
 Reports are saved under `reports/<run-id>/`. Provider failures are **BLOCKED**, not quality passes; blocked or failed runs exit nonzero. The terminal shows one row per case, with PASS/FAIL/N/A. Replaying creates a new report and never modifies the original outputs. See [evaluation design and evidence](docs/EVALUATIONS.md).
 
 ## Choose a provider
 
-Reviewers need only the credential for their chosen backend. Install its extra and initialize a fresh configuration:
+Reviewers need only the credential for their chosen backend. After cloning, creating the venv and activating it, choose **one row** below. Run `pip install -e '.[EXTRA]'` using its extra, then its initialization command. Replace `MODEL_ID` with a tool-capable model available to your account.
 
 | Backend | Extra | Initial configuration | Credential |
 | --- | --- | --- | --- |
 | OpenAI | `openai` | `trip-agent config init --provider openai --model gpt-6.1-sol` | `OPENAI_API_KEY` |
 | Anthropic | `anthropic` | `trip-agent config init --provider anthropic --model MODEL_ID` | `ANTHROPIC_API_KEY` |
 | Bedrock | `bedrock` | `trip-agent config init --provider bedrock --model MODEL_ID` | AWS credential chain and region |
-| OpenRouter | `openrouter` | `trip-agent config init --provider openrouter --model openrouter/free` | `OPENROUTER_API_KEY` |
+| OpenRouter | `openrouter` | `trip-agent config init --provider openrouter --model MODEL_ID` | `OPENROUTER_API_KEY` |
 
-For example, install `pip install -e '.[openrouter]'`, initialize once, add the key to `.env`, then run `trip-agent config check --live`. Add `.[eval]` to run evaluations. A non-default profile can be selected when creating sessions or running evaluations. Existing sessions retain their saved model configuration. In-session model switching is deferred.
+For example, a Claude reviewer installs `pip install -e '.[anthropic]'`, initializes with the Anthropic command, and puts only `ANTHROPIC_API_KEY=...` in `.env`. A Bedrock reviewer sets `region` and, if needed, `aws_profile` in the generated `trip-agent.toml`; it initially uses `us-west-2`. Then **every provider follows the same steps**:
+
+```bash
+trip-agent config show                 # Confirm provider, model and region before spending quota.
+trip-agent config check                # Local dependencies and configuration.
+trip-agent config check --live         # Real model, tool and structured-response check.
+trip-agent session create --name "Provider review"
+trip-agent run --session "Provider review" \
+  "Two adults from SFO to Porto in May 2027, 3 nights and 4 days. Boutique hotel under USD 300 per room per night. No total trip budget. Give a mock estimate."
+trip-agent session create --name "Missing information"
+trip-agent run --session "Missing information" "Cheap."
+pip install -e '.[eval]'
+python -m evals.run                    # All ten live cases using your default profile.
+trip-agent logbook --session "Provider review" --open
+```
+
+The first request should return an evidenced suggestion; `Cheap.` should ask for clarification. Investigate a failed live configuration check before starting the full suite. To review implementation tests too, install `.[test]` and run `pytest -q`; this installs SDKs for multiple providers but uses offline fixtures, so additional provider credentials are unnecessary. The evaluation scorers are deterministic and need no separate LLM judge/key. The included OpenAI evidence can also be replayed without an OpenAI key; replay does not test your chosen model.
+
+`.[openai]` includes the SDK OpenRouter also uses; it does not install Anthropic's SDK. Bedrock's dependencies are already included by the base Strands package. `.[providers]` optionally installs all integrations. Installing an extra never selects a backend or changes existing configuration. A non-default profile can be selected with `--profile` when creating sessions, checking configuration or running evaluations. Existing sessions retain their saved model configuration; in-session switching is deferred. See the [operating guide](docs/OPERATIONS.md#configure-another-backend) to add profiles to an existing config instead of running `config init` again.
+
+When accessing Claude **through OpenRouter**, choose `--provider openrouter`, use the OpenRouter model ID, and supply `OPENROUTER_API_KEY`. Direct Anthropic access uses `--provider anthropic` and `ANTHROPIC_API_KEY`. For independent comparisons in fresh clones, initialize each clone once; the configuration initializer never overwrites an existing file.
 
 OpenAI is the verified live path. Anthropic/Bedrock configuration is tested offline, not with live accounts. OpenRouter has made successful live tool calls and completed some cases; its free router also showed formatting failures and quota exhaustion. Free routing is not a fixed-model quality benchmark. No automatic paid fallback or provider switching occurs.
+
+Separate [fresh runtime-install checks](submission/validation/20261006T162608763233Z-clean-clone/provider-installations.json) passed for Anthropic, Bedrock and OpenRouter using cached wheels and fake credentials: configuration, session creation, agent imports and SDK construction all worked. Anthropic and Bedrock environments contained no OpenAI SDK. These checks establish dependency isolation, not live model quality or online setup speed.
+
+The [deeper dependency audit](submission/validation/20261006T164247Z-provider-dependencies/summary.json) also passed for all three: `pip check` before/after installing `.[eval]`, ten-case evidence replay with no credentials, and real provider SDK/Strands tool-call, structured-output and saved-session-resume tests with simulated transport responses. Anthropic/Bedrock still had no OpenAI SDK after adding evaluations. Exact package versions are recorded. The local regression suite passed **81 tests**; the timed published revision had 70. This audit used Python 3.14.6 on macOS and cached wheels; other platforms, live Anthropic/Bedrock accounts and arbitrary model compatibility remain unverified.
 
 Missing keys fail local validation; invalid credentials/model access, quota limits, and connectivity failures produce actionable errors and retain evidence. Strands' OpenAI-compatible adapter is also used for OpenRouter; diagnostic labels identify OpenRouter correctly. See [provider setup and troubleshooting](docs/OPERATIONS.md#configure-another-backend).
 
