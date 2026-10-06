@@ -97,7 +97,7 @@ def test_historical_failed_output_is_not_rewritten_into_a_pass(tmp_path, monkeyp
         "--only", "explicit-exclusion", "--output", str(tmp_path / "reports")])
     assert main() == 1
     report = json.loads(next((tmp_path / "reports").glob("*/summary.json")).read_text())
-    assert report["evaluation_version"] == 4
+    assert report["evaluation_version"] == 5
     assert report["case_outcomes"]["explicit-exclusion"]["has_final_response"]
     assert report["counts"]["valid_final_responses"] == 0
     assert report["counts"]["failed_cases"] == 1

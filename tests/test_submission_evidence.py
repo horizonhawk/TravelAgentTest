@@ -80,7 +80,7 @@ def test_replay_moved_bundle_without_original_sessions_or_credentials(tmp_path, 
     monkeypatch.setattr(sys, 'argv', ['evals.run', '--replay', str(moved / 'outputs.json'), '--output', str(tmp_path / 'results')])
     assert main() == 0
     report = json.loads(next((tmp_path / 'results').glob('*/summary.json')).read_text())
-    assert report['evaluation_version'] == 4 and report['counts']['passed_cases'] == 8
+    assert report['evaluation_version'] == 5 and report['counts']['passed_cases'] == 8
     with (moved / 'outputs.json').open('a') as file:
         file.write(' ')
     with pytest.raises(AppError, match='integrity'):

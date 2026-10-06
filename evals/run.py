@@ -81,7 +81,7 @@ def main():
         atomic_json(args.output / run_id / "outputs.json", outputs, replace=False)
     outcomes, counts = case_outcomes(report, outputs)
     artifact = {"mode": "replay" if args.replay else "live", "run_id": run_id,
-                "evaluation_version": 4, "source_outputs": str(args.replay) if args.replay else None,
+                "evaluation_version": 5, "source_outputs": str(args.replay) if args.replay else None,
                 "case_outcomes": outcomes, "counts": counts, **report.model_dump(mode="json")}
     atomic_json(args.output / run_id / "summary.json", artifact, replace=False)
     display_outcomes(outcomes, counts)

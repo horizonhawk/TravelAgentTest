@@ -1,6 +1,6 @@
 # Evaluation design and portable evidence
 
-The harness uses Strands Evals with deterministic Python evaluators. No judge model, second credential, or fixed tool sequence is required. Evaluation version 4 adds an explicit missing-detail contract and accurate status-mismatch diagnostics; the valid-final-response count now requires a passing contract check. Version 3 introduced the earlier budget/geography checks described below. Original reports retain their original evaluator versions.
+The harness uses Strands Evals with deterministic Python evaluators. No judge model, second credential, or fixed tool sequence is required. Evaluation version 5 recognizes additional valid conflict-resolution questions and avoids combining keywords from unrelated questions. Version 4 added the missing-detail contract, accurate status-mismatch diagnostics, and a valid-final-response count that requires a passing contract check. Version 3 introduced the earlier budget/geography checks. Original reports retain their original evaluator versions.
 
 ## Dimensions
 
@@ -20,6 +20,8 @@ Quota, rate-limit, access, and connection failures are provider-blocked cases. T
 For each priced suggestion, the evidence evaluator requires the final rough budget to contain the calculated whole-party range. Explicit USD amounts must come from cited totals, line items, hotel/flight unit prices, the user's budget, or a calculated budget remainder. It rejects unqualified all-in coverage when tool evidence lists exclusions or unknown costs. This catches changing the answer to `USD 1 all-in` even if all referenced tool calculations are valid.
 
 The Tokyo/Japan conflict case must retain the Tokyo requirement as conflicting, retain the Japan exclusion, acknowledge the incompatibility, avoid recommending a trip, and ask about resolving the conflict when clarification is chosen. It rejects the false statement that Tokyo is outside Japan and rejects an unrelated budget question as conflict resolution.
+
+One actual run asked whether the user would allow visiting Japan for Tokyo or keep Japan excluded and consider another destination. This valid clarification failed version 4's keyword list. Version 5 recognizes requirement changes, permission to visit the excluded country, and considering an alternative destination, within individual questions. Regression examples include eight valid paraphrases and eight unrelated/missing-question cases, plus a false-geography mutation. A question about which Tokyo hotel to choose does not qualify. This is still a bounded English heuristic, not general semantic understanding. No agent prompt or runtime changed for this evaluator correction.
 
 These are intentionally narrow English/numeric checks. They can reject unusual but correct phrasing, and they cannot prove arbitrary prose correct. They do not constitute a general geography engine or semantic judge. Mutation tests demonstrate rejection of the observed false claims; the original correct responses still pass. More varied language would justify a reviewed labeled dataset and/or a calibrated judge later.
 
@@ -50,11 +52,13 @@ The ten inputs and their requirements are defined in [`evals/cases.json`](../eva
 
 The two original-assignment cases allow several valid strategies and have relatively narrow assertions. For example, the Lisbon case does not comprehensively score geographic proximity or itinerary quality. Case names describe scenarios, not a claim that every preference in the prompt has an automated assertion.
 
-Separate offline tests cover session isolation, corrections, append-only artifacts and logbooks, budget units, secret redaction, provider setup/protocols, execution limits, portable replay and acceptance-runner failure handling. Adversarial tests verify that altered budget/geography claims and missing or cross-session evidence fail. The local suite has 89 passing tests, including missing-detail rejection/correction and preservation of the actual failed output; the earlier timed published revision had 70 tests. These fixture-based tests are distinct from live model evaluations. Subjective usefulness, multilingual behavior and multi-turn planning quality are not measured by the ten-case live suite.
+Separate offline tests cover session isolation, corrections, append-only artifacts and logbooks, budget units, secret redaction, provider setup/protocols, execution limits, portable replay and acceptance-runner failure handling. Adversarial tests verify that altered budget/geography claims and missing or cross-session evidence fail. The local suite has 107 passing tests, including missing-detail rejection/correction, conflict-question paraphrases, and preservation of original generated outputs; the earlier timed published revision had 70 tests. These fixture-based tests are distinct from live model evaluations. Subjective usefulness, multilingual behavior and multi-turn planning quality are not measured by the ten-case live suite.
 
 An earlier curated **OpenAI / gpt-6.1-sol** run, `20261006T162713800251Z`, passed **10/10 cases and 34/34 applicable checks**, with no provider blockers. It ran from actual GitHub commit `97b8245049409bfd788502804d60eb15fe86f9b9`; [acceptance timings and checks](../submission/validation/20261006T162608763233Z-clean-clone/summary.json) and [portable evidence](../submission/evidence/openai-20261006T162713800251Z/manifest.json) are included. Its exported evidence also passes all ten cases under version 4.
 
-The later [candidate-run repeat](../submission/validation/20261006T170738499600Z-clean-clone/summary.json), on `e17bd3e`, passed both timing targets but scored 9/10 cases and 33/34 checks under version 3. Its [unchanged portable evidence](../submission/evidence/openai-20261006T170847905864Z/manifest.json) preserves the undecided-field failure. Version-4 replay still fails that case; it now fails schema-dependent dimensions too (31/34, nine valid final responses). The offline correction-loop regression passes. An attempted fresh live check from the assistant environment was provider-connection blocked, so a live post-fix acceptance result remains pending.
+The later [candidate-run repeat](../submission/validation/20261006T170738499600Z-clean-clone/summary.json), on `e17bd3e`, passed both timing targets but scored 9/10 cases and 33/34 checks under version 3. Its [unchanged portable evidence](../submission/evidence/openai-20261006T170847905864Z/manifest.json) preserves the undecided-field failure. Version-4 replay still fails that case; it now fails schema-dependent dimensions too (31/34, nine valid final responses). The offline correction-loop regression passes. An attempted fresh live check from the assistant environment was provider-connection blocked.
+
+The candidate's [subsequent live run on `e548294`](../submission/validation/20261006T172332660380Z-clean-clone/summary.json) exercised the missing-detail fix successfully. The only failure was the conflict-question false negative described above. [Version-5 replay](../submission/evidence/openai-20261006T172433615442Z/replays/20261006T173200501939Z/summary.json) of all ten unchanged answers passes 10/10 cases and 34/34 checks. Original live and replay reports retain their 9/10 results; this is a separately recorded evaluator correction, not a new live run or retroactive acceptance pass. Timings in that actual run were 43.085 seconds after cloning and 43.992 including cloning.
 
 Earlier evidence remains preserved: the original eight-case run `20261006T044810289114Z` passed 8/8 cases and 28/28 applicable checks, including version-3 replay; the two added assignment cases passed a [separate run](../submission/validation/20261006T054836705601Z-github-clone/check.json), 2/2 cases and 6/6 checks. A replay is not a fresh model run and does not measure nondeterminism. OpenRouter free routing has both successful historical turns and quota/protocol failures; it is not presented as a reliable fixed-model benchmark. Anthropic and Bedrock setup is tested offline only.
 
@@ -63,7 +67,9 @@ Earlier evidence remains preserved: the original eight-case run `20261006T044810
 From the repository root after installing `.[eval]`:
 
 ```bash
-# Latest complete ten-case run:
+# Latest complete ten-case run, rescored under the corrected conflict evaluator:
+python -m evals.run --replay submission/evidence/openai-20261006T172433615442Z/outputs.json
+# Earlier complete ten-case run:
 python -m evals.run --replay submission/evidence/openai-20261006T162713800251Z/outputs.json
 # Earlier eight-case run:
 python -m evals.run --replay submission/evidence/openai-20261006T044810289114Z/outputs.json

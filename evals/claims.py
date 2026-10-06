@@ -79,18 +79,39 @@ def scope_checks(text, budget):
     return [('Partial estimate described as covering all costs', not unsupported)]
 
 
+def conflict_resolution_question(question, destination, country):
+    """Recognize bounded English resolution forms, not arbitrary intent.
+
+    Match within one question so a location in one question and an unrelated
+    choice in another cannot combine into apparent conflict resolution.
+    """
+    text = question.lower()
+    places = rf"\b(?:{re.escape(destination)}|{re.escape(country)})\b"
+    requirements = r"\b(?:requirements?|constraints?|restrictions?|exclusion|prohibition|ban)\b"
+    if not re.search(places, text) and not re.search(requirements, text):
+        return False
+    requirement_choice = re.search(requirements, text) and re.search(
+        r"\b(?:which|relax|change|revise|reconsider|choose|drop|lift|waive|prioriti\w*|flexib\w*|negotiable)\b", text)
+    alternative = re.search(
+        r"\b(?:consider|choose|prefer|accept|open to|instead|look for)\b.{0,60}"
+        r"\b(?:another|different|alternative) (?:destination|city|country)\b", text)
+    allow_visit = re.search(
+        rf"\b(?:allow|permit|accept|open to|willing to|okay with|ok with)\s+(?:a\s+)?"
+        rf"(?:visit(?:ing)?|travel(?:ling|ing)?|go(?:ing)?)\s+(?:to\s+)?{re.escape(country)}\b", text)
+    return bool(requirement_choice or alternative or allow_visit)
+
+
 def conflict_checks(response, conflict):
     destination, country = conflict['destination'].lower(), conflict['country'].lower()
     state = response.get('trip_state', {})
     message = response.get('message', '').lower()
-    questions = ' '.join(response.get('questions', [])).lower()
     fact = state.get('destination', {})
     retained = destination in str(fact.get('value', '')).lower()
     exclusions = ' '.join(str(f.get('value', '')) for f in state.get('exclusions', [])).lower()
     acknowledges = re.search(r"conflict|incompatib|contradict|mutually exclusive|impossible|(?:can[’']?t|cannot).{0,80}(?:both|without|satisfy)", message)
     false_geography = re.search(rf'\b{re.escape(destination)}\b.{{0,45}}\b(?:outside|not (?:in|part of)|isn.t in)\b.{{0,20}}\b{re.escape(country)}\b', message)
-    resolution = (any(term in questions for term in [destination, country, 'requirement', 'constraint'])
-                  and bool(re.search(r'which|relax|change|prioriti|reconsider|different|choose|flexib|instead', questions)))
+    resolution = any(conflict_resolution_question(question, destination, country)
+                     for question in response.get('questions', []))
     return [
         ('Conflicting destination requirement not retained', retained and fact.get('status') == 'conflicting'),
         ('Excluded country not retained', country in exclusions),
