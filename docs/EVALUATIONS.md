@@ -25,7 +25,24 @@ These are intentionally narrow English/numeric checks. They can reject unusual b
 
 ## Cases and measured coverage
 
-`evals/cases.json` contains ten cases: underspecified input, beach budget, Tokyo without flights, family missing origin, nightly hotel limit, destination exclusion, conflicting constraints, Antarctica outside the catalog, the original $2,000 beach prompt, and the original Lisbon wedding-extension prompt.
+The ten inputs and their requirements are defined in [`evals/cases.json`](../evals/cases.json). Every case receives the common contract/evidence checks; the table describes additional case-specific assertions.
+
+| Case | Input scenario | Additional checks |
+| --- | --- | --- |
+| `underspecified` | “Cheap.” | Clarification status; missing origin, destination, dates and travelers must not be marked user-stated. |
+| `beach-budget` | Two adults from JFK, $3,000 including flights | Retain JFK; require successful destination, accommodation, flight and budget tools; allow suggestions or no match. |
+| `tokyo-excluding-flights` | Tokyo, $6,000 excluding flights | Retain Tokyo and flight exclusion; require successful accommodation/budget tools; forbid flight search and flight costs in the total. |
+| `family-missing-origin` | Family of four, warm spring break, pool, no origin | Clarification status; retain pool preference; do not invent a user-stated origin. |
+| `nightly-hotel-limit` | Porto hotel under $300 per room/night, no total budget | Retain nightly limit; selected hotel must fit it; require accommodation/budget tools; an unspecified total budget stays unknown. |
+| `explicit-exclusion` | Romantic trip excluding Santorini, origin/duration undecided | Retain exclusion, avoid Santorini suggestions, ask questions, and keep preliminary suggestions unpriced. |
+| `contradiction` | Tokyo required, Japan forbidden | Preserve the conflict, acknowledge incompatibility, avoid trip suggestions, and address the conflict in clarification. |
+| `unsupported-catalog` | Antarctica required | Require a successful destination lookup and `no_match`; a catalog gap does not make Antarctica invalid. |
+| `original-tight-beach-budget` | Original $2,000 beach request from JFK | Retain JFK; accept clarification, evidence-supported suggestions or no match. |
+| `original-lisbon-extension` | Five-day extension after a Lisbon wedding; flight already booked | Retain the booked Lisbon flight; any flight search must originate in Lisbon instead of an invented long-haul departure city. |
+
+The two original-assignment cases allow several valid strategies and have relatively narrow assertions. For example, the Lisbon case does not comprehensively score geographic proximity or itinerary quality. Case names describe scenarios, not a claim that every preference in the prompt has an automated assertion.
+
+Separate offline tests cover session isolation, corrections, append-only artifacts and logbooks, budget units, secret redaction, provider setup/protocols, execution limits, portable replay and acceptance-runner failure handling. Adversarial tests verify that altered budget/geography claims and missing or cross-session evidence fail. The local suite has 81 passing tests; the timed published revision had 70 before the additional acceptance/provider tests. These fixture-based tests are distinct from live model evaluations. Subjective usefulness, multilingual behavior and multi-turn planning quality are not measured by the ten-case live suite.
 
 The latest curated run is **OpenAI / gpt-6.1-sol**, run ID `20261006T162713800251Z`: a **single ten-case live run with 10/10 cases and 34/34 applicable checks passing**, with no provider blockers. It ran from actual GitHub commit `97b8245049409bfd788502804d60eb15fe86f9b9`; [acceptance timings and checks](../submission/validation/20261006T162608763233Z-clean-clone/summary.json) and [portable evidence](../submission/evidence/openai-20261006T162713800251Z/manifest.json) are included. Its exported evidence also passed all ten cases on replay.
 

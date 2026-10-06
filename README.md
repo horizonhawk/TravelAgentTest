@@ -81,7 +81,19 @@ pip install -e '.[test]'
 pytest -q
 ```
 
-Four deterministic dimensions check schema, constraints, evidence/budget claims, and tool use. **Ten cases** include vague input, exclusions, conflicting requirements, unknown budgets, catalog gaps, and two original assignment examples. They do not impose tool order on the agent.
+Four deterministic dimensions check **output schema**, **user constraints**, **evidence and budget claims**, and **tool use**. Tool checks distinguish required attempts, successful results and forbidden calls; they do not impose tool order on the agent.
+
+The **ten live cases** cover:
+
+| Coverage | Cases and checked behavior |
+| --- | --- |
+| Missing information | “Cheap.” and a family trip without an origin: request clarification, retain stated preferences, and avoid marking missing details as user-provided facts. |
+| Budget scope | A $3,000 beach trip including flights, Tokyo excluding flights, and Porto under $300 per room/night: use relevant pricing tools, respect excluded flights, and distinguish nightly limits from an unknown total budget. |
+| Destination constraints | An explicit Santorini exclusion and “Tokyo required, Japan forbidden”: retain exclusions and address contradictory requirements. |
+| Catalog limitations | Antarctica: perform a lookup and report the mock catalog's lack of coverage. The destination itself is valid. |
+| Original assignment examples | The $2,000 beach request and Lisbon wedding extension: preserve JFK or the already-booked Lisbon flight while allowing clarification, evidenced suggestions or no match. These cases have narrower assertions than a complete itinerary-quality assessment. |
+
+The [case-by-case checks](docs/EVALUATIONS.md#cases-and-measured-coverage) map to [the input definitions](evals/cases.json). Separately, **81 offline regression tests** cover tools, sessions, append-only artifacts/logbooks, provider protocols, replay, acceptance checks, and deliberately corrupted answers that the evaluators must reject. Offline tests use fixtures and do not establish live model quality. Subjective usefulness, general semantic correctness, multilingual requests and multi-turn planning quality remain outside the live suite's coverage.
 
 The latest included **single ten-case OpenAI run passed 10/10 cases and 34/34 applicable checks**, with no provider blockers; its portable export also passed replay. Earlier eight-case and two-case runs remain preserved. Regression tests reject incorrect final dollar amounts, false all-in claims, and the claim that Tokyo lies outside Japan, even when the response has valid structure and citations. These are deliberately narrow English checks, not a complete semantic judge.
 
