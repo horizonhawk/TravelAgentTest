@@ -1,0 +1,124 @@
+{
+  "status": "passed",
+  "mode": "offline_prepared_bundle_cached_install_no_live_calls",
+  "commit": "af256277fba4d0430d1fcdb58f5174ba4894b920",
+  "credentials_and_private_files_absent": true,
+  "verified_manifests": [
+    "submission/evidence/openai-20261006T044810289114Z/manifest.json",
+    "submission/evidence/openai-20261006T162713800251Z/manifest.json",
+    "submission/examples/porto-live-logbook-20261006T054836.manifest.json",
+    "submission/validation/20261006T054836705601Z-github-clone/additional-evidence/manifest.json",
+    "transcripts/export-20261006T052729Z/manifest.json",
+    "transcripts/export-20261006T055620Z/manifest.json",
+    "transcripts/export-20261006T161502Z/manifest.json"
+  ],
+  "documentation_links_resolve": true,
+  "ten_prompt_excerpts_match_original_users": true,
+  "source_sha256": {
+    "evals/__init__.py": "3f915fbb6c210e9cb6e1f0b33f5ade6dad6233225d0a6bd42341640e2f24a50f",
+    "evals/cases.json": "abc466aae1684b3a1584d474998c2439319949095ee9f957303cd2a767dbe051",
+    "evals/claims.py": "f54ac4607381dd49f0715f22794820004e8703f925a09dd0f8a21e120289cad0",
+    "evals/evaluators.py": "2fbea21eabdf60a15729cf50d4fa90915cac3a100f3355d12387db69e02d7668",
+    "evals/evidence.py": "dbbb695d3e770c99b1fa67b552d76f8bae927ac7ba1e70085733e7360112a883",
+    "evals/export.py": "e8ad4b2a389b1119b1970eeb279fe6dee8d2c86f870c3c814daa5beb60fd94fa",
+    "evals/reporting.py": "0870fb8c570953d3bd1344a1c72e4d1bcd8a55772e705959fdcd6c9153303524",
+    "evals/run.py": "2eadd78bf37e9056cbddd497340de87fe3c42ab25d018a23eee1990aee7559f9",
+    "pyproject.toml": "8f2a18efa0547427b4907a6fb26108584524e84c10f4c1032e7de13a591fd6f9",
+    "scripts/export_transcript.py": "9a4e63ea7b23b4200c5075f0ea160e678287032e1bbb4406f0666d31af34307f",
+    "scripts/verify_submission.py": "8b04424cc04d8aac12d42bdb7b7ba6cabb2b9c37d440bdacc2ba2407f0bb389d",
+    "src/trip_agent/__init__.py": "d4eeaaf0bd6282a92a7651c7c4d3715f1395f69b92265a6c4a3c93aec9afc645",
+    "src/trip_agent/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/trip_agent/agent.py": "e2aab6bdbe658fcb28e6c78ea8b3a5ecd03e8cd4efeaf74578d8759153524253",
+    "src/trip_agent/cli.py": "5296811c547ad7692d9b78efbfb109ba869da370b9f8b4a23749998d481d74e4",
+    "src/trip_agent/compatibility.py": "cbaa2f1cfd55a1d0752fbef0293468f7fb5a5997a544ab457c71967ae2449eba",
+    "src/trip_agent/config.py": "1de3f9e904cf3276ed3388d060314b99ab1cadb9f8fca4a1094688650eb693aa",
+    "src/trip_agent/data/mock_catalog.json": "bf5e93804ddcc6181e6bf0e70cfb706673303377caf315b4883a849e09f7f7c2",
+    "src/trip_agent/events.py": "84dfd01589187fda05aa7095fa809c0fc5ce26c7992317afe040830ece478c97",
+    "src/trip_agent/failures.py": "c762440acb7646648084a78041ce7ce3db346d32ce998d605cb64e3519193935",
+    "src/trip_agent/logbook.py": "c6d29dd5263e18be17ea158a39237369c8bf4d44232ce6ec446592e4ddc9142a",
+    "src/trip_agent/models.py": "61c2134362dbbd7a0f0efeb5c93060762dda206deb8b87019d670dc19b30612a",
+    "src/trip_agent/openai_model.py": "9e15806a4b0151aea3fcbc3a9e7ec11516dd51bb8ba3ab07fdff003114a82e34",
+    "src/trip_agent/openrouter_model.py": "2714b7d18e998b8c40d7c9eb53938d351f5e53d2a4eae464238e528a14e00b79",
+    "src/trip_agent/persistence.py": "fc6df844f5593f83dd2a848700cb33089965ef43dab3928221226092e9b3384d",
+    "src/trip_agent/prompts.py": "4499684b1b33b2d844ea3578fe1f924e5a7acce7d0835d52764369d830972b69",
+    "src/trip_agent/schemas.py": "67d7fd322db85325ff625eece0e5ffb741055466c229b3f27eacd0a4d3da9a6c",
+    "src/trip_agent/session.py": "06b81449c2c9834f7af2f3dec70674262f784f0f42efd8b226d546b38900ff6d",
+    "src/trip_agent/terminal.py": "7443761b9d5b28b3015ff0d47e6dc4e6de0229aaed731663b81899f2ee3b4217",
+    "src/trip_agent/tool_schema.py": "4f8716b43db2905c89e78d4c285611480f57b8c799ecfc3696a068147241dcd2",
+    "src/trip_agent/tools/__init__.py": "0e997505d7ff0f2c601534c04341220d5d6cbddfb617b017bf50d71e06019461",
+    "src/trip_agent/tools/context.py": "6af37e35ae7f6379529f1942c0d1689a5b6bc7d70569cf05a0d22f671d3f735f",
+    "src/trip_agent/tools/travel.py": "0c2b0bce37294bbac53bd72a7685954de28e15c310dd45b0d6bc191c64253478",
+    "tests/conftest.py": "ca1d988916f210ccd48643e6fc5ceb19fd930087a747e0413ceda2e88d9e99f5",
+    "tests/test_agent.py": "90a82d79a83a70cce1c576050d781eee371d73836e38dde4859dbfef392754d0",
+    "tests/test_cli.py": "328f9fe18f7421ea9cc500ee5d4ec45cd83e1ea7e25eb0db4bb4dcb91ab21bc8",
+    "tests/test_compatibility.py": "7ade7c59bc5ffbafe624045306240682b25227edb6e3d70db50a6c520f01bca0",
+    "tests/test_evals.py": "48c4eab64c7207a9c743aaf2ed4a64815cb26ebbab11e0f90079c7b92781d055",
+    "tests/test_evaluation_regressions.py": "d69b1028b662ee8fe19ea31227d22c414406004ff7e08293c58b45fae4edfd62",
+    "tests/test_logbook.py": "e96a536bd47266ad13ac06ea657da2943d8d9542cce37a92d755b5747b3c5d3b",
+    "tests/test_models.py": "06f3bdacb566479ec37230a5f34cc92deb93863274a1455dad6d07b855585d73",
+    "tests/test_native_provider_protocols.py": "2effab322a25f256e2828767289e4d1259b0b9e99ca8244d1235706f8ad97b4c",
+    "tests/test_provider_logging.py": "25655fd536c4dbdef779cf9bca6f36bfe71da83d9ce8d6e98a8c92ff40642686",
+    "tests/test_provider_setup.py": "d0172429000d29e6fb191b576c005db6b48f6730fe9155d49df7a8be81ce5d31",
+    "tests/test_sessions.py": "f8dc75306313604fb5a2bd2835b2236174a69ce96f31752b9408a6a4f5a4bad6",
+    "tests/test_submission_evidence.py": "96a9c35ffec5f63322ede6463758b8af49e1c3bbbb4694bd07604ca09e44f47b",
+    "tests/test_tool_protocol.py": "3b01fa63f9a14d3473b2a60461b5b2c308298af269bb473625795b25a2272055",
+    "tests/test_tools.py": "768836cbda6061199cb1e1514859c519802ace8ef44d31f302640630a0744416",
+    "tests/test_transcript_export.py": "45f9052f09d11d2a9fc7ac99d796e98d7bcf7af86e9dfac735458f51bb7bb91f",
+    "tests/test_verify_submission.py": "ab55752ca7edce63fe0b8d5163140e4c02e76cd553527e6d9741582dc97cf35a"
+  },
+  "source_report_sha256": "e80042ab9b2093686a01105f3a3cbb6ff702b123c1fc19c4d44a4206ab8936cf",
+  "source_report": "reports/final-preflight/20261006T170330960072Z/check.json",
+  "offline_tests_passed": 81,
+  "replay_counts": {
+    "total_cases": 10,
+    "passed_cases": 10,
+    "failed_cases": 0,
+    "provider_blocked_cases": 0,
+    "valid_final_responses": 10,
+    "applicable_checks": 34,
+    "passed_applicable_checks": 34
+  },
+  "steps": [
+    {
+      "label": "Clone the prepared Git bundle",
+      "exit_code": 0
+    },
+    {
+      "label": "Verify prepared revision",
+      "exit_code": 0
+    },
+    {
+      "label": "Inventory published files",
+      "exit_code": 0
+    },
+    {
+      "label": "Verify credential ignore rules",
+      "exit_code": 0
+    },
+    {
+      "label": "Create a fresh offline validation environment",
+      "exit_code": 0
+    },
+    {
+      "label": "Install runtime and QA dependencies using cached wheels",
+      "exit_code": 0
+    },
+    {
+      "label": "Check installed dependency consistency",
+      "exit_code": 0
+    },
+    {
+      "label": "Run the entire offline suite from the prepared package",
+      "exit_code": 0
+    },
+    {
+      "label": "Replay the complete portable ten-case evidence",
+      "exit_code": 0
+    },
+    {
+      "label": "Confirm published source stayed clean",
+      "exit_code": 0
+    }
+  ],
+  "description": "Fresh local clone of the prepared Git bundle; fresh venv installed with cached wheels. No live provider calls or online timing claim. Later transcript and documentation packaging is separate; implementation source hashes are preserved for comparison."
+}

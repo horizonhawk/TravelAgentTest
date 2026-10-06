@@ -1,3 +1,4 @@
 # Preserve earlier snapshots; publish the selected genuine export.
 export-*/
 !export-20261006T161502Z/
+!export-20261006T170440Z/

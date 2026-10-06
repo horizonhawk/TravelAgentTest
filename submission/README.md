@@ -4,6 +4,7 @@ This directory contains reviewable evaluation evidence. It is not a claim that t
 
 ## Included evidence
 
+- [Final prepared-package check](validation/20261006T170330Z-final-preflight/summary.json): fresh local clone of the prepared Git bundle, fresh cached-wheel environment, 81 offline tests and all ten evidence-replay cases passing. Published-file credential checks, manifest hashes, documentation links and all ten original prompt quotations also passed. This is an offline packaging check; online timings come from the acceptance run below.
 - [Latest clean-clone acceptance summary](validation/20261006T162608763233Z-clean-clone/summary.json): actual remote commit `97b8245`, fresh venv, pip cache disabled; first successful response in 46.53 seconds after cloning, 47.275 seconds including cloning. Both timing targets passed. All ten live cases (34/34 applicable checks), 70 offline tests, logbook preservation and evidence replays passed. Full suite: 242.293 seconds.
 - [Complete ten-case live evidence](evidence/openai-20261006T162713800251Z/manifest.json): original OpenAI outputs and evidence from that acceptance run, exported unchanged. The source report remains preserved locally; the acceptance summary records its hash and step outcomes.
 - [Other-provider installation checks](validation/20261006T162608763233Z-clean-clone/provider-installations.json): isolated Anthropic, Bedrock and OpenRouter runtime installs/configuration/SDK construction using cached wheels and fake credentials. These are offline compatibility checks, not live-provider results.
