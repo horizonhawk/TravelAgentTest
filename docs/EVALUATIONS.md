@@ -27,7 +27,7 @@ These are intentionally narrow English/numeric checks. They can reject unusual b
 
 `evals/cases.json` contains ten cases: underspecified input, beach budget, Tokyo without flights, family missing origin, nightly hotel limit, destination exclusion, conflicting constraints, Antarctica outside the catalog, the original $2,000 beach prompt, and the original Lisbon wedding-extension prompt.
 
-The curated source run is **OpenAI / gpt-6.1-sol**, run ID `20261006T044810289114Z`, with **8/8 cases and 28/28 applicable checks passing**. Its original answers also pass version-3 replay. The two added original-assignment prompts have **not** been evaluated live yet. A replay is not a fresh model run and does not measure nondeterminism. OpenRouter free routing has both successful historical turns and quota/protocol failures; it is not presented as a reliable fixed-model benchmark. Anthropic and Bedrock setup is tested offline only.
+The curated source run is **OpenAI / gpt-6.1-sol**, run ID `20261006T044810289114Z`, with **8/8 cases and 28/28 applicable checks passing**. Its original answers also pass version-3 replay. The two added original-assignment prompts passed a [separate live run](../submission/validation/20261006T054836705601Z-github-clone/check.json) from the unchanged GitHub clone: **2/2 cases and 6/6 applicable checks**. Their [portable evidence](../submission/validation/20261006T054836705601Z-github-clone/additional-evidence/manifest.json) preserves the original responses. Ten cases have live coverage across two runs; this is not a single ten-case run. A replay is not a fresh model run and does not measure nondeterminism. OpenRouter free routing has both successful historical turns and quota/protocol failures; it is not presented as a reliable fixed-model benchmark. Anthropic and Bedrock setup is tested offline only.
 
 ## Portable replay
 
@@ -35,6 +35,8 @@ From the repository root after installing `.[eval]`:
 
 ```bash
 python -m evals.run --replay submission/evidence/openai-20261006T044810289114Z/outputs.json
+# The two original-assignment examples generated from the actual GitHub clone:
+python -m evals.run --replay submission/validation/20261006T054836705601Z-github-clone/additional-evidence/outputs.json
 ```
 
 No API key, `.env`, `trip-agent.toml`, or `.trip-agent` directory is needed. The bundle includes original generated responses and selected original request/tool/state/prompt/error records, with session IDs and artifact IDs preserved. The embedded evidence store enforces session isolation and fails on missing references. It does not fall back to the developer's machine.

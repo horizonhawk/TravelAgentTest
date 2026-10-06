@@ -1,0 +1,48 @@
+{
+  "repository": "https://github.com/horizonhawk/TravelAgentTest.git",
+  "prepared_commit": "ebe5a3320795794c1e389269843f3bd3e6ed0652",
+  "started_at": "2026-10-06T05:48:36.706558+00:00",
+  "steps": [
+    {
+      "label": "Record the cloned revision",
+      "seconds": 0.01,
+      "exit_code": 0,
+      "stdout": "ebe5a3320795794c1e389269843f3bd3e6ed0652\n",
+      "stderr": ""
+    },
+    {
+      "label": "Create a fresh reviewer session",
+      "seconds": 0.14,
+      "exit_code": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"session_id\": \"45c3d3ff-c8ef-4a0e-b7ef-b7cbee8f07e3\",\n  \"name\": \"Reviewer demo 20261006T054836705601Z\",\n  \"created_at\": \"2026-10-06T05:48:36.839381+00:00\",\n  \"updated_at\": \"2026-10-06T05:48:36.839593+00:00\",\n  \"status\": \"ready\",\n  \"active_profile\": \"openai\",\n  \"model_config\": {\n    \"provider\": \"openai\",\n    \"model_id\": \"gpt-6.1-sol\",\n    \"api_key_env\": \"OPENAI_API_KEY\",\n    \"region\": null,\n    \"aws_profile\": null,\n    \"max_model_calls\": 12,\n    \"timeout_seconds\": 60\n  },\n  \"latest_turn_id\": null\n}\n",
+      "stderr": "Resume: trip-agent session resume 45c3d3ff-c8ef-4a0e-b7ef-b7cbee8f07e3\n"
+    },
+    {
+      "label": "Run the README example with real LLM calls",
+      "seconds": 23.26,
+      "exit_code": 0,
+      "stdout": "{\n  \"session_id\": \"45c3d3ff-c8ef-4a0e-b7ef-b7cbee8f07e3\",\n  \"turn_id\": \"55d0b021-da37-4845-8ada-60eda36528be\",\n  \"artifact_id\": \"138ebcb0-9687-442c-ae44-ab04744f424f\",\n  \"response\": {\n    \"status\": \"suggestions\",\n    \"message\": \"Mock estimate for two adults visiting Porto in May 2027: USD 2,140\u20133,130 for round-trip flights from SFO, one boutique room for 3 nights, and meals/local transport for 4 days. This is not an all-in total.\",\n    \"trip_state\": {\n      \"origin\": {\n        \"value\": \"SFO\",\n        \"status\": \"user_stated\",\n        \"source_artifact_ids\": [\n          \"45faea0c-9c9c-4a21-89ec-311431153d3c\"\n        ]\n      },\n      \"destination\": {\n        \"value\": \"Porto\",\n        \"status\": \"user_stated\",\n        \"source_artifact_ids\": [\n          \"45faea0c-9c9c-4a21-89ec-311431153d3c\"\n        ]\n      },\n      \"dates\": {\n        \"value\": \"May 2027\",\n        \"status\": \"user_stated\",\n        \"source_artifact_ids\": [\n          \"45faea0c-9c9c-4a21-89ec-311431153d3c\"\n        ]\n      },\n      \"duration\": {\n        \"value\": \"3 nights and 4 days\",\n        \"status\": \"user_stated\",\n        \"source_artifact_ids\": [\n          \"45faea0c-9c9c-4a21-89ec-311431153d3c\"\n        ]\n      },\n      \"travelers\": {\n        \"value\": \"2 adults\",\n        \"status\": \"user_stated\",\n        \"source_artifact_ids\": [\n          \"45faea0c-9c9c-4a21-89ec-311431153d3c\"\n        ]\n      },\n      \"budget\": {\n        \"value\": \"No total trip budget; hotel strictly under USD 300 per room per night\",\n        \"status\": \"user_stated\",\n        \"source_artifact_ids\": [\n          \"45faea0c-9c9c-4a21-89ec-311431153d3c\"\n        ]\n      },\n      \"preferences\": [\n        {\n          \"value\": \"Boutique hotel\",\n          \"status\": \"user_stated\",\n          \"source_artifact_ids\": [\n            \"45faea0c-9c9c-4a21-89ec-311431153d3c\"\n          ]\n        }\n      ],\n      \"exclusions\": [],\n      \"open_questions\": []\n    },\n    \"questions\": [],\n    \"suggestions\": [\n      {\n        \"destination_id\": \"porto\",\n        \"reasoning\": \"Mock Riverside Boutique accommodates two adults in one room and meets your boutique requirement. Its USD 140\u2013190 per room per night fixture range is entirely below your USD 300 limit.\",\n        \"accommodation_id\": \"porto-boutique\",\n        \"budget_artifact_id\": \"4a4779d5-fb28-4068-a963-2cd45ebc50b7\",\n        \"rough_budget\": \"Whole-party estimate in USD: round-trip flights USD 1,400\u20132,000; lodging for one room, 3 nights USD 420\u2013570; meals and local transport for two adults, 4 days USD 320\u2013560. Total: USD 2,140\u20133,130. No overall budget ceiling was applied.\",\n        \"evidence_artifact_ids\": [\n          \"44d5f8df-9bb7-4b99-b584-8850bbc8c8c1\",\n          \"0f2698a3-10dd-4822-9546-96eaf13b33b5\",\n          \"2c31c091-30bb-43c4-b8d2-2462ae71dbe5\",\n          \"4a4779d5-fb28-4068-a963-2cd45ebc50b7\"\n        ],\n        \"caveats\": [\n          \"Excluded: activities, insurance, visas, baggage, and intercity ground transfers.\"\n        ]\n      }\n    ],\n    \"assumptions\": [\n      \"Two adults share one room; the fixture room capacity is two.\",\n      \"Daily expenses cover the stated four days; no extra travel-day expenses are added.\"\n    ],\n    \"caveats\": [\n      \"All figures and the hotel are illustrative mock fixtures, not live quotes or availability for May 2027. Dates do not change fixture airfare.\",\n      \"Taxes are included in fixture rates; excluded costs mean the estimate is not all-in.\"\n    ]\n  }\n}\n",
+      "stderr": "[Debug] [Tool] search_destinations\n[Debug] [Result] search_destinations: ok\n[Debug] [Tool] search_flights\n[Debug] [Result] search_flights: ok\n[Debug] [Tool] search_accommodations\n[Debug] [Result] search_accommodations: ok\n[Debug] [Tool] calculate_trip_budget\n[Debug] [Result] calculate_trip_budget: ok\n[Debug] [Tool] Format final response\n[Debug] [Result] TripResponse: success\n"
+    },
+    {
+      "label": "Evaluate the two added assignment cases live",
+      "seconds": 50.43,
+      "exit_code": 0,
+      "stdout": "                       Travel-agent evaluation: case outcomes                        \n\u250f\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2533\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2533\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2533\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2533\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2533\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2513\n\u2503 Case                        \u2503 Outcome \u2503 Contract \u2503 Constraints \u2503 Evidence \u2503 Tools \u2503\n\u2521\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2547\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2547\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2547\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2547\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2547\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2529\n\u2502 original-tight-beach-budget \u2502 passed  \u2502 PASS     \u2502 PASS        \u2502 PASS     \u2502 N/A   \u2502\n\u2502 original-lisbon-extension   \u2502 passed  \u2502 PASS     \u2502 PASS        \u2502 PASS     \u2502 N/A   \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\nCases: 2 passed, 0 failed, 0 provider-blocked. Valid final responses: 2/2.\nApplicable quality checks: 6/6. N/A checks are excluded; provider-blocked cases are not passes.\nReport: <USER_HOME>/labplace/Vayo/TakeHomeTestRun/submission/validation/20261006T054836705601Z-github-clone/additional-evals/20261006T054900549793Z/summary.json\n",
+      "stderr": "[Debug] [Tool] search_destinations\n[Debug] [Result] search_destinations: ok\n[Debug] [Tool] search_flights\n[Debug] [Result] search_flights: ok\n[Debug] [Tool] search_accommodations\n[Debug] [Result] search_accommodations: ok\nAgent \u00b7 progress\nCancun matches the beach-and-relaxation preferences in the mock catalog. I\u2019ll estimate 7 days and\n6 hotel nights for two, including flights from JFK, and treat your $2,000 limit as USD; please\nconfirm the duration.\n[Debug] [Tool] calculate_trip_budget\n[Debug] [Result] calculate_trip_budget: ok\n[Debug] [Tool] Format final response\n[Debug] [Result] TripResponse: success\n[Debug] [Tool] search_destinations\n[Debug] [Result] search_destinations: ok\n[Debug] [Tool] Format final response\n[Debug] [Result] TripResponse: success\n"
+    },
+    {
+      "label": "Export portable evidence for the two added cases",
+      "seconds": 0.13,
+      "exit_code": 0,
+      "stdout": "<USER_HOME>/labplace/Vayo/TakeHomeTestRun/submission/validation/20261006T054836705601Z-github-clone/additional-evidence\n",
+      "stderr": ""
+    }
+  ],
+  "status": "passed",
+  "continuation_of": "submission/validation/20261006T053840817424Z-github-clone/check.json",
+  "reused_setup": true,
+  "cloned_commit": "ebe5a3320795794c1e389269843f3bd3e6ed0652",
+  "live_example_passed": true,
+  "finished_at": "2026-10-06T05:49:50.675324+00:00"
+}

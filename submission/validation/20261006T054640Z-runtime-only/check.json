@@ -1,0 +1,29 @@
+{
+  "source_commit": "ebe5a3320795794c1e389269843f3bd3e6ed0652",
+  "runtime_extra": "openai",
+  "cached_wheels": true,
+  "live_model_calls": false,
+  "online_timing_established": false,
+  "steps": [
+    {
+      "label": "Create fresh environment",
+      "seconds": 1.76,
+      "exit_code": 0
+    },
+    {
+      "label": "Install only OpenAI runtime extra using cached wheels",
+      "seconds": 6.98,
+      "exit_code": 0
+    },
+    {
+      "label": "Import agent without evaluation dependencies",
+      "seconds": 0.97,
+      "exit_code": 0
+    },
+    {
+      "label": "Initialize configuration",
+      "seconds": 0.12,
+      "exit_code": 0
+    }
+  ]
+}

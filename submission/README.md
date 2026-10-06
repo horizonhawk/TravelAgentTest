@@ -9,18 +9,21 @@ This directory contains reviewable evaluation evidence. It is not a claim that t
 - [Evaluation methodology and limits](../docs/EVALUATIONS.md): including mutation tests that reject false final budget/geography claims.
 - [Genuine coding-session export](../transcripts/README.md): source-derived conversation and tool records, explicit cutoff and redactions.
 - [Process decisions](../PROCESS.md): ten annotated real prompt excerpts and scope/scaling discussion.
+- [Example agent logbook](examples/porto-live-logbook-20261006T054836.html): the unmodified, self-contained HTML edition from the successful live Porto example; open in a browser after cloning. It includes expandable tool JSON, state changes, evidence references, and the event timeline. [Provenance manifest](examples/porto-live-logbook-20261006T054836.manifest.json).
 - [Fresh source-copy check](validation/20261006T051625Z/clean-source-check.json): isolated environment, credential-free replay, 70 passing tests, timings, and checked source hashes. Dependencies came from cached wheels; this is not a remote-clone or live-LLM check.
+- [Actual GitHub-clone check](validation/20261006T053840817424Z-github-clone/check.json): publication and clone of commit `ebe5a3320795794c1e389269843f3bd3e6ed0652`, 70 passing tests, 8/8 replay cases, and a successful real model/tool/structured-output probe. The longer example failed before any travel tool ran with a connection error. Setup took 146 seconds, so the two-minute target was not met in this attempt.
 
-The default suite now has ten cases. The two original-assignment additions ($2,000 beach request and Lisbon extension) have not yet been run live. Existing evidence does not claim that they passed.
+The [continuation](validation/20261006T054836705601Z-github-clone/check.json) reused the same clean clone and passed the [live Porto example](validation/20261006T054836705601Z-github-clone/live-example.json) in 23.26 seconds. Both original-assignment additions ($2,000 beach request and Lisbon extension) also passed: 2/2 cases and 6/6 applicable checks. Their [portable evidence bundle](validation/20261006T054836705601Z-github-clone/additional-evidence/manifest.json) can be replayed without credentials. The agent source and model configuration were unchanged between the failed and successful attempts. Ten cases have passed across two live runs; no single ten-case run is claimed.
 
 ## Required before submission
 
-- Publish the reviewed files, then clone that exact GitHub revision into a new directory and perform setup plus a real example. Record the revision, timing, result, and any limitations.
-- Refresh the genuine transcript snapshot after final preparation so the cutoff is clear.
+- Measure the revised runtime-only quickstart online; the original setup included evaluation dependencies and exceeded two minutes.
+
+The runtime, evaluation code, and tests remain at the verified revision. Documentation and curated evidence are updated after the validation run; the repository history records their publication revision separately. The genuine transcript export identifies its own cutoff explicitly.
 
 The candidate supplied their reflection, review scope, and approximate time (two hours of development plus twenty minutes of artifact/submission preparation). The designated repository is [horizonhawk/TravelAgentTest](https://github.com/horizonhawk/TravelAgentTest), which is public.
 
-A clean source-copy installation and offline tests are useful evidence, but they do not substitute for the requested GitHub-clone live check. The coding environment has blocked Git/Python DNS connectivity; the separate local gh CLI reports an invalid token. The first GitHub publication attempt was rejected with HTTP 403, "Resource not accessible by integration." Repository write access and live execution must be validated separately; no publication success is claimed.
+The initial GitHub connector publication requests returned HTTP 403, "Resource not accessible by integration." Publication and live validation subsequently succeeded from the candidate's normal terminal using the prepared Git bundle. The actual cloned revision matches that bundle. No automatic model/provider switching or new agent retry policy was added. The successful fresh attempt does not establish the cause of the earlier connection failure.
 
 ## Publication contents
 

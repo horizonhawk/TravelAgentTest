@@ -1,0 +1,47 @@
+{
+  "source_check_sha256": "a558b5875c5ddf48f229663f11ea995dc8d4bb1f58696c9e6dce2aee6f9d278b",
+  "source_commit": "ebe5a3320795794c1e389269843f3bd3e6ed0652",
+  "session_id": "d451921b-2d1a-4e20-aa22-4baf3898a1b4",
+  "observations": [
+    "GitHub publication and clone succeeded",
+    "70 offline tests and 8 replay cases passed",
+    "Live model/tool/structured-output connection check passed",
+    "README example failed on the first model call; zero tool invocations and zero saved model responses",
+    "pip reported download timeouts; setup including evaluation dependencies took 146.12 seconds"
+  ],
+  "root_cause": "Not established: original evidence only contains APIConnectionError and Connection error.",
+  "original_error_artifacts": [
+    {
+      "schema_version": 1,
+      "artifact_id": "04d88a59-8879-4dbb-acae-4614e759eb90",
+      "kind": "errors",
+      "session_id": "d451921b-2d1a-4e20-aa22-4baf3898a1b4",
+      "turn_id": "f9612c3f-8123-4ec7-a7d9-5052096c1ef0",
+      "created_at": "2026-10-06T05:42:08.784664+00:00",
+      "source_artifact_ids": [],
+      "data": {
+        "stage": "turn",
+        "type": "APIConnectionError",
+        "message": "Connection error.",
+        "category": "provider_connection",
+        "provider_blocked": true
+      }
+    },
+    {
+      "schema_version": 1,
+      "artifact_id": "58ccf640-f085-4433-bf83-8bd31e148212",
+      "kind": "errors",
+      "session_id": "d451921b-2d1a-4e20-aa22-4baf3898a1b4",
+      "turn_id": "f9612c3f-8123-4ec7-a7d9-5052096c1ef0",
+      "created_at": "2026-10-06T05:42:08.776231+00:00",
+      "source_artifact_ids": [
+        "6158bcc3-ee35-4374-8f15-9b1bfa4699ba"
+      ],
+      "data": {
+        "stage": "model",
+        "type": "APIConnectionError",
+        "message": "Connection error."
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "bundle_version": 1,
+  "source_run_id": "20261006T054900549793Z",
+  "source_mode": "live",
+  "source_sha256": {
+    "outputs.json": "6acd5b6363058949c41eb2a6eddba8e4ff473aabedc3bc8b1a0abcd00ee1bc27",
+    "summary.json": "3626251ba100a3a26daf58f967f31ef760405af39ef0fcef8f77ad4cdb8315f9"
+  },
+  "files_sha256": {
+    "cases.json": "32b461af5a386ce14e53f6a8e2a507574a5d4072ce157fd988066438f099f795",
+    "outputs.json": "815e302d67cc7861a589a024b1afc9859af6c7c2b23eebd09708cbfb1b0bae91"
+  },
+  "case_names": [
+    "original-tight-beach-budget",
+    "original-lisbon-extension"
+  ],
+  "original_evaluation_version": 3,
+  "description": "Original generated outputs and selected original evidence, repackaged without local session paths. Cases use current evaluator metadata; replay is a rescore, not a new model run. Hashes detect accidental edits, not cryptographic provenance or tamper-proof storage."
+}

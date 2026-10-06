@@ -16,5 +16,7 @@ tmp/
 
 # Local run history stays private; curated portable evidence lives in submission/.
 reports/
+# Publish the embedded evidence bundles; preserve raw validation-run exports locally.
+submission/validation/*-github-clone/additional-evals/
 Take-Home Assignment.pdf
 Take-Home Assignment.html

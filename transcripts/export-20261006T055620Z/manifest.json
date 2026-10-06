@@ -1,0 +1,32 @@
+{
+  "exported_at": "2026-10-06T05:56:20.969649+00:00",
+  "source_filename": "rollout-2026-10-04T17-28-04-01a10975-e9f8-7352-b261-bc908e1f4c34.jsonl",
+  "source_snapshot_sha256": "f9401ec0ae263511aba76aaa38dd12a03fdd45bda701ea1e27bd5a1b77de344d",
+  "source_snapshot_bytes": 14181013,
+  "last_record_timestamp": "2026-10-06T05:56:20.615Z",
+  "records_included": 667,
+  "omitted_record_counts": {
+    "session_meta:None:": 1,
+    "event_msg:task_started:": 41,
+    "response_item:message:developer": 7,
+    "world_state:None:": 5,
+    "turn_context:None:": 43,
+    "event_msg:item_completed:": 985,
+    "token_usage_record:None:": 295,
+    "event_msg:token_count:": 294,
+    "event_msg:task_complete:": 40,
+    "event_msg:thread_settings_applied:": 48,
+    "response_item:reasoning:": 252,
+    "compacted:None:": 3
+  },
+  "redactions": {
+    "credential_values": 0,
+    "credential_patterns": 0,
+    "home_path": 271
+  },
+  "files_sha256": {
+    "transcript.jsonl": "b4f4b1a4aed4c793e348501cbe9473d8ac98e13fb3bc8a6268f6561f33117bbe",
+    "conversation.md": "023aba032a5cd3c820d5d1da31e9e8ce31cecf4efce862153e5ce3afe93b73b4"
+  },
+  "authenticity": "Filtered export of original records, not a reconstruction or a verbatim raw-session file. No user/assistant response text was authored to fill gaps. Snapshot cutoff is explicit."
+}

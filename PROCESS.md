@@ -42,9 +42,9 @@ This records decisions from the genuine development conversation. The annotated 
 
 7. **Demand tool-use evaluation**
 
-   > good that works now. for the agent evaluation, can we add tests that certain tools, like search destinations included for given context? i believe strands already supports that
+   > good that works now. for the agent evaluation, can we add tests that certain tools included? i believe strands already supports that
 
-   Intent: verify observable behavior, not just final JSON. The assistant used Strands' deterministic ToolCalled checks. Required attempts, successful results, and forbidden tools remain separate; the LLM is not forced into a test-defined tool order.
+   Intent: verify observable behavior, such as destination lookup in a relevant context, as well as final JSON. The assistant used Strands' deterministic ToolCalled checks. Required attempts, successful results, and forbidden tools remain separate; the LLM is not forced into a test-defined tool order.
 
 8. **Investigate failures rather than trust the aggregate score**
 
@@ -79,8 +79,8 @@ The final answer checks are deliberately limited deterministic English checks, n
 - Offline tests exercise the actual Strands loop with scripted models, provider setup, session isolation/resumption, append-only artifacts, budget arithmetic, and evaluator behavior.
 - A [clean source copy](submission/validation/20261006T051625Z/clean-source-check.json) without local credentials/configuration/sessions installed successfully using cached wheels, replayed all eight original cases, and passed all 70 offline tests. Testing the literal README command also caught and fixed missing repository imports when invoking `pytest` directly. This does not measure internet installation or a remote clone.
 - The candidate ran live evaluations locally. The OpenAI eight-case run `20261006T044810289114Z` passed all cases; original outputs are included in the portable evidence bundle. Version-3 replay also passes those original responses.
-- Mutated responses claiming `USD 1 all-in` or that Tokyo is outside Japan now fail. The new original $2,000 beach and Lisbon-extension cases still need live results.
-- Python API networking in the coding environment has failed. Remote GitHub-clone and live-example validation must be recorded separately rather than inferred from offline results.
+- Mutated responses claiming `USD 1 all-in` or that Tokyo is outside Japan now fail. The original $2,000 beach and Lisbon-extension cases passed a separate live run from the GitHub clone: 2/2 cases and 6/6 applicable checks.
+- The candidate published commit `ebe5a3320795794c1e389269843f3bd3e6ed0652` and ran the [actual GitHub-clone check](submission/validation/20261006T053840817424Z-github-clone/check.json). All 70 tests, the eight-case replay, and a real model/tool/structured-output probe passed. Setup took 146 seconds with download timeouts. The longer README example then failed on its first model request with `APIConnectionError`, before any travel tool ran. The [separate continuation](submission/validation/20261006T054836705601Z-github-clone/check.json) reused the same clean clone and model configuration and passed the full Porto example in 23.26 seconds. Only the local validation helper changed: it reused setup, created a fresh session, retained exception causes, cleaned Python environment overrides, and continued independent checks after an example failure. No agent-code, prompt, provider, timeout, or retry-policy change caused this success; the exact connection-failure cause remains unknown. The original failed attempt remains intact.
 
 ## Candidate reflection and time
 

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "original-tight-beach-budget",
+    "input": "Relaxing beach week in February under $2000 for two, leaving from JFK. Want a nice hotel.",
+    "metadata": {
+      "statuses": [
+        "needs_clarification",
+        "suggestions",
+        "no_match"
+      ],
+      "origin": "JFK"
+    }
+  },
+  {
+    "name": "original-lisbon-extension",
+    "input": "I'll be in Lisbon Oct 10–13 for a wedding. Want to tack on 5 days somewhere nearby. Already have the flight to Lisbon.",
+    "metadata": {
+      "statuses": [
+        "needs_clarification",
+        "suggestions",
+        "no_match"
+      ],
+      "already_booked_flight": "lisbon"
+    }
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "source_commit": "ebe5a3320795794c1e389269843f3bd3e6ed0652",
+  "session_id": "45c3d3ff-c8ef-4a0e-b7ef-b7cbee8f07e3",
+  "turn_id": "55d0b021-da37-4845-8ada-60eda36528be",
+  "source_edition": "20261006T054859811500Z-a7c0b020-739f-4c51-bd63-9c8d4facaf0a.html",
+  "file_sha256": "bda25b80190c7944dab7759826cf227a17a3e8c004a0ba2a9870f08124621c82",
+  "description": "Unmodified self-contained logbook edition from the successful synthetic Porto README example. No extra model call was made to produce this copy. Contains the actual request, tool calls/results, final response, state, and timeline; no credentials or personal manual-travel sessions."
+}
