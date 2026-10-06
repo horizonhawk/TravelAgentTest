@@ -20,7 +20,8 @@ def test_printed_tool_markup_uses_sdk_correction_without_executing_text(sessions
     assert response['response']['status'] == 'needs_clarification'
     assert len(model.seen_messages) == 2
     assert model.seen_choices[-1] == {'tool': {'name': 'TripResponse'}}
-    assert STRUCTURED_OUTPUT_PROMPT in json.dumps(model.seen_messages[-1]).replace('\\n', '\n')
+    assert any(STRUCTURED_OUTPUT_PROMPT in block.get('text', '')
+               for message in model.seen_messages[-1] for block in message.get('content', []))
     assert MARKUP not in display.getvalue()
     assert 'not executed' in display.getvalue()
     store = ArtifactStore(sessions.resolve('Test trip'))

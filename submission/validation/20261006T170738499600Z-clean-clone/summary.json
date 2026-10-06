@@ -1,0 +1,159 @@
+{
+  "status": "failed",
+  "repository": "https://github.com/horizonhawk/TravelAgentTest.git",
+  "cloned_commit": "e17bd3e2bc984328a537c07f0451ebbc3f144109",
+  "runner_sha256": "8b04424cc04d8aac12d42bdb7b7ba6cabb2b9c37d440bdacc2ba2407f0bb389d",
+  "provider": "openai",
+  "model": "gpt-6.1-sol",
+  "pip_cache": "disabled",
+  "fresh_venv": true,
+  "timing": {
+    "runtime_ready_after_clone_seconds": 12.918,
+    "clean_clone_to_first_response": {
+      "seconds": 49.569,
+      "limit_seconds": 120,
+      "status": "passed"
+    },
+    "clone_start_to_first_response": {
+      "seconds": 50.441,
+      "limit_seconds": 300,
+      "status": "passed"
+    },
+    "interpretation": "Conservative: running means a validated Porto suggestion, including the README's live configuration probe. The 120s clock starts when cloning completes; the 300s clock includes cloning. Both include venv creation, runtime installation, credential loading, configuration and LLM latency. API-key acquisition, reading the README, eval/test installation and the later suite are not timed here."
+  },
+  "checks": {
+    "live_configuration": true,
+    "live_example": true,
+    "logbook_preservation": true,
+    "submission_files_present": true,
+    "offline_tests": true,
+    "included_evidence_replay": true,
+    "all_live_evaluations": false,
+    "new_evidence_replay": false,
+    "source_unchanged": true
+  },
+  "live_evaluation_counts": {
+    "total_cases": 10,
+    "passed_cases": 9,
+    "failed_cases": 1,
+    "provider_blocked_cases": 0,
+    "valid_final_responses": 10,
+    "applicable_checks": 34,
+    "passed_applicable_checks": 33
+  },
+  "total_suite_seconds": 230.672,
+  "started_at": "2026-10-06T17:07:38.500844+00:00",
+  "finished_at": "2026-10-06T17:11:29.172011+00:00",
+  "source_report": "reports/acceptance/20261006T170738499600Z-clean-clone/check.json",
+  "source_report_sha256": "f33565b713627b225477b8aac6b3e3f99350d3e68ae3a3b4fc8a3b432ceb4acf",
+  "description": "Derived summary of the candidate-run failed acceptance attempt. Original live outputs, reports and exports are unchanged. Failure concerns the representation of explicitly undecided origin and duration, not an invented city or trip length.",
+  "portable_evidence": "../../evidence/openai-20261006T170847905864Z/manifest.json",
+  "original_evaluation_version": 3,
+  "failed_case": {
+    "name": "explicit-exclusion",
+    "reason": "Invented user-stated origin; Invented user-stated duration",
+    "actual_values": {
+      "origin": {
+        "value": "Undecided",
+        "status": "user_stated"
+      },
+      "duration": {
+        "value": "Undecided",
+        "status": "user_stated"
+      }
+    },
+    "live_and_replay_outcomes_identical": true
+  },
+  "steps": [
+    {
+      "label": "Clone GitHub into a new directory",
+      "seconds": 0.871,
+      "exit_code": 0
+    },
+    {
+      "label": "Record the tested commit",
+      "seconds": 0.015,
+      "exit_code": 0
+    },
+    {
+      "label": "Create a fresh virtual environment",
+      "seconds": 1.771,
+      "exit_code": 0
+    },
+    {
+      "label": "Install runtime only: .[openai]",
+      "seconds": 10.528,
+      "exit_code": 0
+    },
+    {
+      "label": "Initialize fresh openai configuration",
+      "seconds": 0.31,
+      "exit_code": 0
+    },
+    {
+      "label": "Record the non-secret model configuration",
+      "seconds": 0.115,
+      "exit_code": 0
+    },
+    {
+      "label": "Check local configuration",
+      "seconds": 0.115,
+      "exit_code": 0
+    },
+    {
+      "label": "Check real model/tool/structured output",
+      "seconds": 12.551,
+      "exit_code": 0
+    },
+    {
+      "label": "Create a fresh reviewer session",
+      "seconds": 0.125,
+      "exit_code": 0
+    },
+    {
+      "label": "Run the README example with real calls and debug JSON",
+      "seconds": 23.971,
+      "exit_code": 0
+    },
+    {
+      "label": "Generate an additional integrated logbook (no LLM call)",
+      "seconds": 0.162,
+      "exit_code": 0
+    },
+    {
+      "label": "Install optional evaluation/test dependencies (outside setup timing)",
+      "seconds": 12.654,
+      "exit_code": 0
+    },
+    {
+      "label": "Run all offline tests from the cloned revision",
+      "seconds": 5.156,
+      "exit_code": 0
+    },
+    {
+      "label": "Replay the included portable evidence (no model calls)",
+      "seconds": 0.571,
+      "exit_code": 0
+    },
+    {
+      "label": "Run ALL 10 evaluation cases with real model calls",
+      "seconds": 160.591,
+      "exit_code": 1
+    },
+    {
+      "label": "Export this run's portable evidence",
+      "seconds": 0.227,
+      "exit_code": 0
+    },
+    {
+      "label": "Replay the newly exported evidence (no model calls)",
+      "seconds": 0.738,
+      "exit_code": 1
+    },
+    {
+      "label": "Verify the checked-out source stayed unchanged",
+      "seconds": 0.11,
+      "exit_code": 0
+    }
+  ]
+}

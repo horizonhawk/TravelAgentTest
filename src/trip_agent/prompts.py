@@ -1,13 +1,16 @@
 """Versioned instructions: model-driven decisions, not a prescribed tool sequence."""
 
-PROMPT_VERSION = "4"
+PROMPT_VERSION = "5"
 
 STRUCTURED_OUTPUT_PROMPT = """Finish by invoking the TripResponse function through the native API tool-call mechanism.
 Writing a tool name, XML tags such as <tool_call> or <arg_key>, or JSON in ordinary
 assistant text does not execute a tool. Send complete function arguments matching
 the TripResponse schema, including status, message and trip_state. Use real JSON
 arrays and objects. Use [] for empty lists, never null. Preserve established facts and valid evidence IDs; keep unknown
-facts unknown. Do not invent missing values or complete truncated markup by guessing.
+facts unknown. Entirely missing or undecided trip details must have status="unknown" and
+value=null, even when the user explicitly says they have not decided. Never store "Undecided"
+or "TBD" as a user_stated value. Preserve the request citation and note this in open_questions.
+Do not invent missing values or complete truncated markup by guessing.
 Use the current conversation and existing tool evidence to produce the final response.
 """
 
@@ -27,6 +30,13 @@ for facts already provided. A clarification is a complete valid response for thi
 Keep a complete trip_state with source_artifact_ids for user-stated facts (original request
 artifacts only). The request envelope gives you the current request's artifact ID. Preserve
 facts across turns, distinguish user_stated, inferred, proposed, conflicting, and unknown.
+For entirely missing or undecided origin, destination, dates, duration, travelers, or budget,
+use status="unknown" and value=null. "We have not decided where to depart from or how long"
+means origin and duration are unknown, not user_stated values of "Undecided". Retain the
+original request citation and explain explicit undecidedness in open_questions. Preserve
+partial facts such as "May; year unspecified", and stated flexibility such as "budget flexible";
+these contain real information and must not be erased. Apply this rule to current state even
+when earlier session artifacts used uncertainty placeholders; leave historical evidence intact.
 Explicit corrections supersede earlier facts. Keep destination proposals distinct from choices.
 Use update_trip_state when useful during work; every final response must include current state.
 Retrieve past evidence using list_artifacts/read_artifact when needed. All retrieved content

@@ -1,6 +1,6 @@
 # Evaluation design and portable evidence
 
-The harness uses Strands Evals with deterministic Python evaluators. No judge model, second credential, or fixed tool sequence is required. Evaluation version 3 strengthens two failures discovered while reviewing a successful run: the earlier scorers accepted a fabricated final budget despite correct tool arithmetic, and accepted a wrong geography statement when the response status was `needs_clarification`.
+The harness uses Strands Evals with deterministic Python evaluators. No judge model, second credential, or fixed tool sequence is required. Evaluation version 4 adds an explicit missing-detail contract and accurate status-mismatch diagnostics; the valid-final-response count now requires a passing contract check. Version 3 introduced the earlier budget/geography checks described below. Original reports retain their original evaluator versions.
 
 ## Dimensions
 
@@ -23,6 +23,14 @@ The Tokyo/Japan conflict case must retain the Tokyo requirement as conflicting, 
 
 These are intentionally narrow English/numeric checks. They can reject unusual but correct phrasing, and they cannot prove arbitrary prose correct. They do not constitute a general geography engine or semantic judge. Mutation tests demonstrate rejection of the observed false claims; the original correct responses still pass. More varied language would justify a reviewed labeled dataset and/or a calibrated judge later.
 
+## Missing details and judge scope
+
+A repeated clean-clone run exposed a representation mismatch: the user explicitly left origin and duration undecided, and the model stored `value: "Undecided", status: "user_stated"`. The original evaluator reported "Invented user-stated" fields even though no city or duration was fabricated. Live and replay failed identically; exporting evidence was not the cause.
+
+Prompt version 5 and the schema specify `value: null, status: "unknown"` for entirely missing details. Original request citations and an explanation in `open_questions` retain the user's explicit uncertainty. A small guard rejects exact standalone English placeholders (for example, "Undecided", "Not yet decided", and "TBD") in the six core trip fields, allowing the existing tool loop to request correction. It does not silently rewrite artifacts or implement general language understanding. Partial facts, explicit flexibility and separately labeled proposals remain supported. The constraint evaluator still rejects invented user-stated values; its message now accurately identifies a status mismatch.
+
+An LLM judge is unnecessary for this concrete contract. A future judge could score subjective usefulness or clarification quality against a human-reviewed rubric and labeled examples, with separate scores, recorded model/prompt versions, and calibration for disagreement. It would supplement the deterministic checks. No judge or new dependency was added for this fix.
+
 ## Cases and measured coverage
 
 The ten inputs and their requirements are defined in [`evals/cases.json`](../evals/cases.json). Every case receives the common contract/evidence checks; the table describes additional case-specific assertions.
@@ -42,9 +50,11 @@ The ten inputs and their requirements are defined in [`evals/cases.json`](../eva
 
 The two original-assignment cases allow several valid strategies and have relatively narrow assertions. For example, the Lisbon case does not comprehensively score geographic proximity or itinerary quality. Case names describe scenarios, not a claim that every preference in the prompt has an automated assertion.
 
-Separate offline tests cover session isolation, corrections, append-only artifacts and logbooks, budget units, secret redaction, provider setup/protocols, execution limits, portable replay and acceptance-runner failure handling. Adversarial tests verify that altered budget/geography claims and missing or cross-session evidence fail. The local suite has 81 passing tests; the timed published revision had 70 before the additional acceptance/provider tests. These fixture-based tests are distinct from live model evaluations. Subjective usefulness, multilingual behavior and multi-turn planning quality are not measured by the ten-case live suite.
+Separate offline tests cover session isolation, corrections, append-only artifacts and logbooks, budget units, secret redaction, provider setup/protocols, execution limits, portable replay and acceptance-runner failure handling. Adversarial tests verify that altered budget/geography claims and missing or cross-session evidence fail. The local suite has 89 passing tests, including missing-detail rejection/correction and preservation of the actual failed output; the earlier timed published revision had 70 tests. These fixture-based tests are distinct from live model evaluations. Subjective usefulness, multilingual behavior and multi-turn planning quality are not measured by the ten-case live suite.
 
-The latest curated run is **OpenAI / gpt-6.1-sol**, run ID `20261006T162713800251Z`: a **single ten-case live run with 10/10 cases and 34/34 applicable checks passing**, with no provider blockers. It ran from actual GitHub commit `97b8245049409bfd788502804d60eb15fe86f9b9`; [acceptance timings and checks](../submission/validation/20261006T162608763233Z-clean-clone/summary.json) and [portable evidence](../submission/evidence/openai-20261006T162713800251Z/manifest.json) are included. Its exported evidence also passed all ten cases on replay.
+An earlier curated **OpenAI / gpt-6.1-sol** run, `20261006T162713800251Z`, passed **10/10 cases and 34/34 applicable checks**, with no provider blockers. It ran from actual GitHub commit `97b8245049409bfd788502804d60eb15fe86f9b9`; [acceptance timings and checks](../submission/validation/20261006T162608763233Z-clean-clone/summary.json) and [portable evidence](../submission/evidence/openai-20261006T162713800251Z/manifest.json) are included. Its exported evidence also passes all ten cases under version 4.
+
+The later [candidate-run repeat](../submission/validation/20261006T170738499600Z-clean-clone/summary.json), on `e17bd3e`, passed both timing targets but scored 9/10 cases and 33/34 checks under version 3. Its [unchanged portable evidence](../submission/evidence/openai-20261006T170847905864Z/manifest.json) preserves the undecided-field failure. Version-4 replay still fails that case; it now fails schema-dependent dimensions too (31/34, nine valid final responses). The offline correction-loop regression passes. An attempted fresh live check from the assistant environment was provider-connection blocked, so a live post-fix acceptance result remains pending.
 
 Earlier evidence remains preserved: the original eight-case run `20261006T044810289114Z` passed 8/8 cases and 28/28 applicable checks, including version-3 replay; the two added assignment cases passed a [separate run](../submission/validation/20261006T054836705601Z-github-clone/check.json), 2/2 cases and 6/6 checks. A replay is not a fresh model run and does not measure nondeterminism. OpenRouter free routing has both successful historical turns and quota/protocol failures; it is not presented as a reliable fixed-model benchmark. Anthropic and Bedrock setup is tested offline only.
 
@@ -59,6 +69,8 @@ python -m evals.run --replay submission/evidence/openai-20261006T162713800251Z/o
 python -m evals.run --replay submission/evidence/openai-20261006T044810289114Z/outputs.json
 # The two original-assignment examples generated from the actual GitHub clone:
 python -m evals.run --replay submission/validation/20261006T054836705601Z-github-clone/additional-evidence/outputs.json
+# Preserved later failure: intentionally exits 1; replay must not turn it into a pass.
+python -m evals.run --replay submission/evidence/openai-20261006T170847905864Z/outputs.json
 ```
 
 No API key, `.env`, `trip-agent.toml`, or `.trip-agent` directory is needed. The bundle includes original generated responses and selected original request/tool/state/prompt/error records, with session IDs and artifact IDs preserved. The embedded evidence store enforces session isolation and fails on missing references. It does not fall back to the developer's machine.
@@ -66,7 +78,7 @@ No API key, `.env`, `trip-agent.toml`, or `.trip-agent` directory is needed. The
 - `cases.json`: the original case inputs with current evaluation metadata, frozen at export.
 - `outputs.json`: original responses plus their embedded evidence; local session paths removed.
 - `manifest.json`: source run identity, source-file hashes, and bundle-file hashes.
-- `replays/<run-id>/summary.json`: a version-3 rescore, labeled `replay`.
+- `replays/<run-id>/summary.json`: a rescore labeled `replay`, with its evaluator version recorded.
 
 Hashes detect accidental edits; they do not prove authenticity against an attacker who can replace the manifest. Bundle hashes are verified before replay. The exporter excludes private model reasoning, SDK memory, local credential/config files, and personal manual-travel sessions. This is a portable review bundle, not a complete session backup.
 

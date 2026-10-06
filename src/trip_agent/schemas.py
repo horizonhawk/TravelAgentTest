@@ -10,7 +10,11 @@ class StrictModel(BaseModel):
 
 
 class Fact(StrictModel):
-    value: str | None = None
+    value: str | None = Field(default=None, description=(
+        "The actual fact, retaining any partial information. For an entirely missing or "
+        "undecided trip detail, use null with status unknown, even if the user explicitly "
+        "said it was undecided. Do not use an uncertainty placeholder as the value."
+    ))
     status: Literal["unknown", "user_stated", "inferred", "proposed", "conflicting"] = "unknown"
     source_artifact_ids: list[str] = Field(default_factory=list)
 
@@ -33,6 +37,23 @@ class TripState(StrictModel):
     preferences: list[Fact] = Field(default_factory=list)
     exclusions: list[Fact] = Field(default_factory=list)
     open_questions: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def missing_details(self):
+        # Exact standalone placeholders only: partial facts such as "May; year
+        # undecided" and genuine flexibility remain meaningful user statements.
+        placeholders = {"unknown", "undecided", "unspecified", "not decided",
+                        "not yet decided", "not provided", "not specified", "tbd"}
+        invalid = [name for name in ("origin", "destination", "dates", "duration", "travelers", "budget")
+                   if (fact := getattr(self, name)).value is not None
+                   and fact.value.strip().casefold().rstrip(".") in placeholders]
+        if invalid:
+            raise ValueError(
+                f"Missing trip details ({', '.join(invalid)}) must use status='unknown' and value=null. "
+                "Keep the original request citation and record explicit undecidedness in open_questions. "
+                "A user stating that a detail is undecided does not supply its value."
+            )
+        return self
 
 
 class Suggestion(StrictModel):

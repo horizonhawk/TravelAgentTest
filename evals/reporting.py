@@ -49,6 +49,8 @@ def case_outcomes(report, outputs):
         "passed_cases": sum(e["status"] == "passed" for e in outcomes.values()),
         "failed_cases": sum(e["status"] == "failed" for e in outcomes.values()),
         "provider_blocked_cases": sum(e["status"] == "provider_blocked" for e in outcomes.values()),
-        "valid_final_responses": sum(e["has_final_response"] for e in outcomes.values()),
+        "valid_final_responses": sum(e["has_final_response"] and any(
+            c["evaluator"] == "ContractEvaluator" and c["applicable"] and c["passed"]
+            for c in e["checks"]) for e in outcomes.values()),
         "applicable_checks": len(checks), "passed_applicable_checks": sum(c["passed"] for c in checks),
     }

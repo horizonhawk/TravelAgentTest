@@ -51,7 +51,8 @@ class ConstraintEvaluator(Evaluator):
         if metadata.get('conflict'):
             checks.extend(conflict_checks(response, metadata['conflict']))
         for field in metadata.get("unknown", []):
-            checks.append((f"Invented user-stated {field}", state.get(field, {}).get("status") != "user_stated"))
+            checks.append((f"{field} is marked user_stated although the request leaves it unknown",
+                           state.get(field, {}).get("status") != "user_stated"))
         if metadata.get("requires_clarification"):
             checks.append(("Missing clarifying questions", bool(response.get("questions"))))
         if metadata.get("unpriced_preliminary_suggestions"):

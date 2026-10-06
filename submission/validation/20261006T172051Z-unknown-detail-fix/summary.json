@@ -1,0 +1,70 @@
+{
+  "description": "Missing-detail contract correction; offline verification and preserved historical failures. No new live model success is claimed.",
+  "prompt_version": "5",
+  "evaluation_version": 4,
+  "offline_tests": {
+    "command": ".venv/bin/python -m pytest -q",
+    "passed": 89,
+    "failed": 0
+  },
+  "source_files_sha256": {
+    "src/trip_agent/schemas.py": "cc66b6895df1f32128777ef7d0fd0e9f30ce92c9bf0fc93ad6fae5fec791e08e",
+    "src/trip_agent/prompts.py": "8f4575241e787a2609c5ad54dcb3057027a48a8823f1609f0fab9c335ccecf63",
+    "evals/evaluators.py": "c0882ad81056e28af8a44a1e39fcb7fb5897182d5ec19312b897aa9c9c15717c",
+    "evals/reporting.py": "1aead7fe9cc2ed6fdb203b94a287c3867cf6fa4e68b2ba3ba4d53821a15bec72",
+    "evals/run.py": "543dcff16a439130dddfe9e410d3ad9245ad7f97524ca41b42685a36f1370037",
+    "tests/test_unknown_details.py": "aa03817a08518ae5603f9588c793be9afb579e34ef04986976947b1f9489c31f",
+    "tests/test_tool_protocol.py": "569e6bb745be7d5e57c87b76324ed97c45dc8a176b3da446946ec799502e11ca",
+    "tests/test_submission_evidence.py": "970b38e77cd622e8869456b897eacd7ba69d906b8f9c8d35dba92537e89a45e7"
+  },
+  "checks": {
+    "earlier_successful_run_replay": {
+      "mode": "replay",
+      "run_id": "20261006T172051934619Z",
+      "counts": {
+        "total_cases": 10,
+        "passed_cases": 10,
+        "failed_cases": 0,
+        "provider_blocked_cases": 0,
+        "valid_final_responses": 10,
+        "applicable_checks": 34,
+        "passed_applicable_checks": 34
+      },
+      "source_report": "reports/unknown-detail-fix/good-replay/20261006T172051934619Z/summary.json",
+      "source_report_sha256": "78cf087b2ab3a8e21e17f1e27f6c71d5ad4277cb2712b978995479840f2bd2f4"
+    },
+    "historical_failed_run_replay": {
+      "mode": "replay",
+      "run_id": "20261006T172051934656Z",
+      "counts": {
+        "total_cases": 10,
+        "passed_cases": 9,
+        "failed_cases": 1,
+        "provider_blocked_cases": 0,
+        "valid_final_responses": 9,
+        "applicable_checks": 34,
+        "passed_applicable_checks": 31
+      },
+      "source_report": "reports/unknown-detail-fix/failed-replay/20261006T172051934656Z/summary.json",
+      "source_report_sha256": "6701d7e3e182929b5bbcd28c02afdf30146acce88fd515359a7ca34e7d15194f",
+      "expected_result": "The original failure remains failed; no output or original report was rewritten."
+    },
+    "attempted_fresh_live_case": {
+      "mode": "live",
+      "run_id": "20261006T171839823734Z",
+      "counts": {
+        "total_cases": 1,
+        "passed_cases": 0,
+        "failed_cases": 0,
+        "provider_blocked_cases": 1,
+        "valid_final_responses": 0,
+        "applicable_checks": 0,
+        "passed_applicable_checks": 0
+      },
+      "source_report": "reports/unknown-detail-fix/live/20261006T171839823734Z/summary.json",
+      "source_report_sha256": "31369f23061f1b351ede0de8269bcac043d3ebfc008f0ff5d0a3986aec88fbc2",
+      "outcome": "provider_connection blocked; no quality verdict"
+    }
+  },
+  "live_acceptance_of_fix": "pending"
+}

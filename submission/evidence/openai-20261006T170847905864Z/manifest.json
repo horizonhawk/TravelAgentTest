@@ -1,0 +1,27 @@
+{
+  "bundle_version": 1,
+  "source_run_id": "20261006T170847905864Z",
+  "source_mode": "live",
+  "source_sha256": {
+    "outputs.json": "684ac3d754a46b603a25e754c9f7b63eb5c10c07a49d4080f525c386cfaefbe5",
+    "summary.json": "3ed1759b18cc4da61bfd026cd37ba9167f3349781e9e548fff63bd3851ca1125"
+  },
+  "files_sha256": {
+    "cases.json": "abc466aae1684b3a1584d474998c2439319949095ee9f957303cd2a767dbe051",
+    "outputs.json": "4bd6258cca746524087145091c3c00e63df003c0f12d09d9b82622b90d3979d5"
+  },
+  "case_names": [
+    "underspecified",
+    "beach-budget",
+    "tokyo-excluding-flights",
+    "family-missing-origin",
+    "nightly-hotel-limit",
+    "explicit-exclusion",
+    "contradiction",
+    "unsupported-catalog",
+    "original-tight-beach-budget",
+    "original-lisbon-extension"
+  ],
+  "original_evaluation_version": 3,
+  "description": "Original generated outputs and selected original evidence, repackaged without local session paths. Cases use current evaluator metadata; replay is a rescore, not a new model run. Hashes detect accidental edits, not cryptographic provenance or tamper-proof storage."
+}
