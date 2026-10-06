@@ -1,0 +1,20 @@
+.venv/
+# Keep local credentials out of commits; publish only the empty example template.
+.env
+.env.*
+!.env.example
+.trip-agent/
+trip-agent.toml
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.DS_Store
+tmp/
+
+# Local run history stays private; curated portable evidence lives in submission/.
+reports/
+Take-Home Assignment.pdf
+Take-Home Assignment.html

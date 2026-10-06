@@ -1,0 +1,141 @@
+[
+  {
+    "name": "underspecified",
+    "input": "Cheap.",
+    "metadata": {
+      "statuses": [
+        "needs_clarification"
+      ],
+      "unknown": [
+        "origin",
+        "destination",
+        "dates",
+        "travelers"
+      ]
+    }
+  },
+  {
+    "name": "beach-budget",
+    "input": "Two adults leaving JFK for a warm relaxing beach trip in February 2027, 7 nights and 8 days. Whole-trip budget USD 3000 including flights. One nice room. Suggest an option using mock estimates.",
+    "metadata": {
+      "statuses": [
+        "suggestions",
+        "no_match"
+      ],
+      "origin": "JFK",
+      "required_tools": [
+        "search_destinations",
+        "search_accommodations",
+        "search_flights",
+        "calculate_trip_budget"
+      ],
+      "required_successful_tools": [
+        "search_destinations",
+        "search_accommodations",
+        "search_flights",
+        "calculate_trip_budget"
+      ]
+    }
+  },
+  {
+    "name": "tokyo-excluding-flights",
+    "input": "Tokyo in November 2027, 8 days and 7 nights, two adults sharing one room, USD 6000 total excluding flights. Do not search flights. We have been before and enjoy food. Give a mock-priced suggestion.",
+    "metadata": {
+      "statuses": [
+        "suggestions"
+      ],
+      "destination": "tokyo",
+      "flights_excluded": true,
+      "required_tools": [
+        "search_accommodations",
+        "calculate_trip_budget"
+      ],
+      "required_successful_tools": [
+        "search_accommodations",
+        "calculate_trip_budget"
+      ],
+      "forbidden_tools": [
+        "search_flights"
+      ]
+    }
+  },
+  {
+    "name": "family-missing-origin",
+    "input": "Family of 4, two adults and kids 6 and 9, warm weather over spring break, about USD 5000 all-in. Need a pool.",
+    "metadata": {
+      "statuses": [
+        "needs_clarification"
+      ],
+      "unknown": [
+        "origin"
+      ],
+      "pool": true
+    }
+  },
+  {
+    "name": "nightly-hotel-limit",
+    "input": "Two adults leaving SFO for Porto in May 2027, 3 nights and 4 days. Walkable city, good food, boutique hotel under USD 300 per room per night. We have no total trip budget. Please give a mock estimate.",
+    "metadata": {
+      "statuses": [
+        "suggestions"
+      ],
+      "nightly_limit": 300,
+      "required_tools": [
+        "search_accommodations",
+        "calculate_trip_budget"
+      ],
+      "required_successful_tools": [
+        "search_accommodations",
+        "calculate_trip_budget"
+      ]
+    }
+  },
+  {
+    "name": "explicit-exclusion",
+    "input": "Anniversary trip in May. Somewhere romantic. We hated Santorini and will not return. Budget flexible but flag over USD 4000. We have not decided where to depart from or how long to go.",
+    "metadata": {
+      "statuses": [
+        "needs_clarification",
+        "suggestions"
+      ],
+      "excluded": [
+        "santorini"
+      ],
+      "unknown": [
+        "origin",
+        "duration"
+      ],
+      "requires_clarification": true,
+      "unpriced_preliminary_suggestions": true
+    }
+  },
+  {
+    "name": "contradiction",
+    "input": "My destination must be Tokyo, but I absolutely refuse to visit Japan. Both are hard requirements.",
+    "metadata": {
+      "statuses": [
+        "needs_clarification",
+        "no_match"
+      ],
+      "conflict": {
+        "destination": "Tokyo",
+        "country": "Japan"
+      }
+    }
+  },
+  {
+    "name": "unsupported-catalog",
+    "input": "Two adults, departing JFK for Antarctica on February 5, 2027 for 7 nights, USD 20000 total. Antarctica is required; do not suggest another destination. Are there options in your mock catalog?",
+    "metadata": {
+      "statuses": [
+        "no_match"
+      ],
+      "required_tools": [
+        "search_destinations"
+      ],
+      "required_successful_tools": [
+        "search_destinations"
+      ]
+    }
+  }
+]

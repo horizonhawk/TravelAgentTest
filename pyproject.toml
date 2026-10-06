@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "atlas-trip-agent"
+version = "0.1.0"
+description = "A model-directed Strands travel CLI with session-scoped evidence"
+requires-python = ">=3.11"
+dependencies = ["strands-agents==1.57.2", "pydantic>=2.12,<3", "python-dotenv>=1.1,<2"]
+
+[project.optional-dependencies]
+openai = ["strands-agents[openai]==1.57.2"]
+anthropic = ["strands-agents[anthropic]==1.57.2"]
+bedrock = []
+openrouter = ["strands-agents[openai]==1.57.2"]
+providers = ["strands-agents[openai,anthropic]==1.57.2"]
+test = ["pytest>=9,<10", "strands-agents[openai,anthropic]==1.57.2", "strands-agents-evals==1.4.0"]
+eval = ["strands-agents-evals==1.4.0"]
+
+[project.scripts]
+trip-agent = "trip_agent.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/trip_agent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

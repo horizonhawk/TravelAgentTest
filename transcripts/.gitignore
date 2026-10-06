@@ -1,0 +1,3 @@
+# Preserve earlier snapshots locally; publish only the selected genuine export.
+export-*/
+!export-20261006T052729Z/

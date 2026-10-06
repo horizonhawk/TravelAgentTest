@@ -1,0 +1,32 @@
+{
+  "version": "1",
+  "currency": "USD",
+  "disclaimer": "Illustrative hardcoded fixtures, not current prices, availability, or weather forecasts. Taxes are included in fixture rates; baggage, insurance, visas and activities are excluded.",
+  "destinations": [
+    {"id": "cancun", "name": "Cancun", "region": "Mexico", "tags": ["beach", "relaxing", "warm", "family", "pool"], "warm_months": [1,2,3,4,5,6,7,8,9,10,11,12], "near": [], "daily_person_usd": [35,65], "caveat": "Mock resort destination; can be touristy."},
+    {"id": "algarve", "name": "Algarve", "region": "Europe", "tags": ["beach", "relaxing", "romantic", "family", "pool"], "warm_months": [5,6,7,8,9], "near": ["lisbon"], "daily_person_usd": [40,70], "caveat": "Mock seasonal data: February is not a warm beach season; Lisbon ground transfer is not priced."},
+    {"id": "porto", "name": "Porto", "region": "Europe", "tags": ["walkable", "food", "romantic", "boutique", "city"], "warm_months": [6,7,8,9], "near": ["lisbon"], "daily_person_usd": [40,70], "caveat": "Illustrative city profile; Lisbon ground transfer is not priced."},
+    {"id": "seville", "name": "Seville", "region": "Europe", "tags": ["walkable", "food", "romantic", "boutique", "city", "warm"], "warm_months": [4,5,6,7,8,9,10], "near": ["lisbon"], "daily_person_usd": [45,80], "caveat": "Warm-season fixture is illustrative; no guaranteed forecast."},
+    {"id": "lyon", "name": "Lyon", "region": "Europe", "tags": ["walkable", "food", "boutique", "city"], "warm_months": [6,7,8,9], "near": [], "daily_person_usd": [60,100], "caveat": "Small mock catalog; neighborhood and attraction details are unavailable."},
+    {"id": "tokyo", "name": "Tokyo", "region": "Japan", "tags": ["food", "city", "culture", "repeat-visit"], "warm_months": [5,6,7,8,9], "near": [], "daily_person_usd": [60,100], "caveat": "No live attraction data; ask repeat visitors about interests and previously visited areas."}
+  ],
+  "accommodations": [
+    {"id": "cancun-garden", "destination_id": "cancun", "name": "Mock Garden Hotel", "nightly_room_usd": [110,150], "capacity": 2, "amenities": ["pool", "beach", "nice"]},
+    {"id": "cancun-family", "destination_id": "cancun", "name": "Mock Family Resort", "nightly_room_usd": [220,290], "capacity": 4, "amenities": ["pool", "family", "beach", "nice"]},
+    {"id": "algarve-villa", "destination_id": "algarve", "name": "Mock Coastal Villa", "nightly_room_usd": [180,240], "capacity": 4, "amenities": ["pool", "family", "romantic"]},
+    {"id": "porto-boutique", "destination_id": "porto", "name": "Mock Riverside Boutique", "nightly_room_usd": [140,190], "capacity": 2, "amenities": ["boutique", "romantic"]},
+    {"id": "seville-courtyard", "destination_id": "seville", "name": "Mock Courtyard Hotel", "nightly_room_usd": [160,220], "capacity": 2, "amenities": ["boutique", "pool", "romantic"]},
+    {"id": "lyon-boutique", "destination_id": "lyon", "name": "Mock Market Boutique", "nightly_room_usd": [180,250], "capacity": 2, "amenities": ["boutique"]},
+    {"id": "tokyo-stay", "destination_id": "tokyo", "name": "Mock Tokyo Stay", "nightly_room_usd": [180,260], "capacity": 2, "amenities": ["boutique", "nice"]}
+  ],
+  "flights": [
+    {"origin": "JFK", "destination_id": "cancun", "round_trip_person_usd": [300,450]},
+    {"origin": "JFK", "destination_id": "porto", "round_trip_person_usd": [600,900]},
+    {"origin": "JFK", "destination_id": "seville", "round_trip_person_usd": [650,950]},
+    {"origin": "SFO", "destination_id": "porto", "round_trip_person_usd": [700,1000]},
+    {"origin": "SFO", "destination_id": "lyon", "round_trip_person_usd": [750,1100]},
+    {"origin": "SFO", "destination_id": "seville", "round_trip_person_usd": [750,1100]},
+    {"origin": "SFO", "destination_id": "tokyo", "round_trip_person_usd": [800,1200]},
+    {"origin": "LIS", "destination_id": "seville", "round_trip_person_usd": [100,180]}
+  ]
+}
